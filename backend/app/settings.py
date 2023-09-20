@@ -24,8 +24,15 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=["*"], cast=Csv())
 CORS_ALLOW_ALL_ORIGINS = True
-
+AUTH_USER_MODEL = 'users.User'
 # Application definition
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    )
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -34,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'users',
     'corsheaders',
     'sector',
     'process',

@@ -6,4 +6,5 @@ class SectorAdmin(admin.ModelAdmin):
     pass
 
 
+
 admin.site.register(Sector, SectorAdmin)
