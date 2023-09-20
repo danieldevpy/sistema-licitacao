@@ -5,15 +5,21 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Process, CreationNotAllowedException
 from .serializers import ProcessSerializer, ProcessSerializerPut
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework.generics import RetrieveAPIView
 from django.shortcuts import get_object_or_404
+from users.models import User
+
 
 class PostListView(APIView):
     authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]  # Add permission class for the whole view
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        process = Process.objects.all()
+        user: User = request.user
+        if user.is_staff:
+            process = Process.objects.all()
+        else:
+            process = Process.objects.filter(sector=user.sector).all()
+        
         serializer = ProcessSerializer(process, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -37,6 +43,7 @@ class PostListView(APIView):
      
 class ProcessDetailView(APIView):
     authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
         process = get_object_or_404(Process, pk=pk)
