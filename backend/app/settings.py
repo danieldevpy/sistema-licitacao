@@ -37,7 +37,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Exemplo: token expira após 30 minutos
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=10),  # Token de acesso dura 10 dias
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=15), 
 }
 
 INSTALLED_APPS = [
