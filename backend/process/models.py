@@ -11,7 +11,7 @@ class CreationNotAllowedException(ValidationError):
 class Process(models.Model):
     process_number = models.CharField("Numero do Processo", max_length=255)
     object = models.CharField("Objeto", max_length=255)
-    sector = models.ForeignKey(Sector, verbose_name="Setor", on_delete=models.SET_NULL, null=True,  related_name="actual_sector")
+    sector = models.ForeignKey(Sector, verbose_name="Setor", on_delete=models.CASCADE, related_name="actual_sector")
     status = models.BooleanField("Recebido pela unidade?", default=False)
     active = models.BooleanField("Processo Ativo?", default=True)
     _previous_sector = models.ForeignKey(Sector, on_delete=models.SET_NULL, null=True, blank=True,  related_name="previous_sector")
