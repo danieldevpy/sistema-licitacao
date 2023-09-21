@@ -23,15 +23,20 @@ class Process(models.Model):
 
     def save(self, *args, **kwargs):
         obj_save = False
+        obs = ""
         if not self._user:
             raise CreationNotAllowedException("O usuário não foi informado")
 
         if not self.id:
             obj_save = True
-            self._obs = f"Criação do processo {self.process_number} e encaminhado para o setor {self.sector.name}"
+            obs = f"Criação do processo {self.process_number} e encaminhado para o setor {self.sector.name}"
+
+        if self._obs:
+             obs = self._obs
 
         if self._previous_sector != self.sector:
              obj_save = True
+             self.status = False
 
         if obj_save:
              self._previous_sector = self.sector
@@ -39,7 +44,7 @@ class Process(models.Model):
         super().save(*args, **kwargs)
         
         if obj_save:
-            Dispatch(process=self, from_sector=self._user.sector, to_sector=self.sector, observation=self._obs).save()
+            Dispatch(process=self, from_sector=self._user.sector, to_sector=self.sector, observation=obs).save()
         
 
     def __str__(self) -> str:
