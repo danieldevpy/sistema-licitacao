@@ -28,7 +28,7 @@ class Process(models.Model):
 
         if not self.id:
             obj_save = True
-            self._obs = f"Criação do processo {self.process_number} e encaminhado para o setor {self._user.sector.name}"
+            self._obs = f"Criação do processo {self.process_number} e encaminhado para o setor {self.sector.name}"
 
         if self._previous_sector != self.sector:
              obj_save = True
