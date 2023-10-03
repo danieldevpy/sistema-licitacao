@@ -1,9 +1,11 @@
 import { Theme } from "./themeType";
 
 const lightTheme: Theme = {
-  backgroundColor: 'white',
+  pageBackgroundColor: '#F5F5F5',
+  componentBackgroundColor: 'white',
   textColor: 'black',
-  // ... outros estilos do tema claro
+  secondTextColor: "",
+  icon: "inherit"
 };
 
 export default lightTheme;

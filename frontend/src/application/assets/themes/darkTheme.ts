@@ -2,9 +2,11 @@
 import { Theme } from "./themeType";
 
 const darkTheme: Theme = {
-  backgroundColor: 'black',
+  pageBackgroundColor: '#0F0B21',
+  componentBackgroundColor: '#3F3D56',
   textColor: 'white',
-  // ... outros estilos do tema escuro
+  secondTextColor: "",
+  icon: "primary"
 };
 
 export default darkTheme;

@@ -1,26 +1,29 @@
-import { ApiConfig, ResponseAPI } from "./default";
+import { ApiConfig, ResponseAPI } from "./apiconfig";
 
 
 
 class Authenticate extends ApiConfig{
 
-
     login(username: string, password: string): Promise<ResponseAPI>{
         return new Promise(async(resolve, reject)=>{
             try{
                 const json_string = JSON.stringify({"username": username, "password": password});
-                console.log(`${this.url}/api/token/`)
-                const response = await fetch(`${this.url}/api/token/`, {
-                    method: "POST",
-                    headers: {'Content-Type': 'application/json'},
-                    body: json_string
-                });
-                const data =  await response.json();
-                const result: ResponseAPI = {status: response.status, data: data};
+                const result = await this.api_fetch(`${this.url}/login/`, "POST", json_string);
                 resolve(result);
             }catch (error){
                 reject(error);
             }
-        })
+        });
+    }
+
+    get_user(): Promise<ResponseAPI>{
+        return new Promise(async(resolve, reject)=>{
+           try{
+            const result = await this.api_fetch(`${this.url}/user`, "GET");
+            resolve(result);
+           }catch (error){
+            reject(error);
+           }
+        });
     }
 } export default Authenticate;

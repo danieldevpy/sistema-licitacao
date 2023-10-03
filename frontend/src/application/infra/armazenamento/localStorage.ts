@@ -1,4 +1,5 @@
 // localstorage.ts
+
 const setLocalStorageItem = (key: string, value: any): void => {
     try {
       localStorage.setItem(key, JSON.stringify(value));
