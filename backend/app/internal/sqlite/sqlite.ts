@@ -1,13 +1,14 @@
-import { Database } from "bun:sqlite";
+
+import sqlite3 from 'sqlite3'
 
 
 class Sqlite {
 
     private static instance: Sqlite | null = null;
-    database: Database;
+    database: sqlite3.Database;
 
     private constructor(name?: string) {
-      this.database = new Database(name||"cisbafdb.sqlite");
+      this.database = new sqlite3.Database('cisbafdb.sqlite');
       this.createTableUser();
       this.createTableProcess();
       this.createTableSector();

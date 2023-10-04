@@ -43,6 +43,19 @@ export class ApiConfig{
         return result;
     }
 
+    async api_fetch_no_json(url: string, method: string, file: File){
+        const formData = new FormData();
+        formData.append('pdf', file);
+        const response = await fetch(url,  {
+            method: 'POST',
+            body: formData
+          })
+        const data = await response.json();
+        const result: ResponseAPI = {status: response.status, data: data};
+        return result;
+    }
+
+
     convertToHeaders(headers: CustomHeaders): Record<string, string> {
         const convertedHeaders: Record<string, string> = {};
         for (const [key, value] of Object.entries(headers)) {

@@ -10,7 +10,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     if (file) {
-        console.log(file);
       onFileSelect(file);
     }
   };

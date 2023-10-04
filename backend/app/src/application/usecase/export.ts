@@ -6,7 +6,7 @@ import {
     AcceptProcess,
     DispatchProcess } from "./processCase";
 import GetAllSector from "./sectorCase";
-import {CreateUser, CheckAuth} from "./userCase";
+import { CheckAuth, CreateUser} from "./userCase";
 import { GetAllDisaptchByIdProcess } from "./dispatchCase";
 
 export {

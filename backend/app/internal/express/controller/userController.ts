@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import {UserRequest} from '../../../src/domain/entity/export';
 import {SqliteUser} from '../../sqlite/export';
-import {CreateUser, CheckAuth} from '../../../src/application/usecase/export';
+import {CheckAuth, CreateUser} from '../../../src/application/usecase/export';
 import MiddlewareAuth from '../middleware/authMiddleware';
 
 const userRepository = new SqliteUser();
@@ -14,6 +14,7 @@ async function CreateUserController(req: Request, res: Response){
     const userRequest: UserRequest = req.body;
     try{
         const id = await CreateUser(userRepository, userRequest.username, userRequest.fullname, userRequest.password, userRequest.sector_id);
+        console.log(id);
         res.status(201);
         return res.json({"sucess": `o id do usuário criado é ${id}`});
     }catch(error: any){
@@ -36,4 +37,4 @@ async function LoginController(req: Request, res: Response){
     res.json({"error": "falha na authenticação"});
 }
 
-export {GetUserController, CreateUserController, LoginController};
+export {CreateUserController, GetUserController, LoginController};

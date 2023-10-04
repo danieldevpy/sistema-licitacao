@@ -1,5 +1,6 @@
 import {UserRepository} from "../repository/export";
 import {User} from "../../domain/entity/export";
+import bcrypt from 'bcrypt';
 
 async function CreateUser(
     repository: UserRepository,
@@ -20,9 +21,9 @@ async function CheckAuth(
     password: string
 ):  Promise<{ id: number; } | null> {
 
-    const response = repository.CheckAuth(username);
-    if(!response.id) return null;
-    const isMatch = await Bun.password.verify(password, response.password);
+    const response = await repository.CheckAuth(username);
+    if(!response.id || response.id == 0) return null;
+    const isMatch = await bcrypt.compare(password, response.password);
     if(!isMatch){
         return null;
     }

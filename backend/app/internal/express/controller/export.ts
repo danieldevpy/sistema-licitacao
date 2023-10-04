@@ -1,5 +1,5 @@
 import { GetAllSectorController } from "./sectorController";
-import {CreateUserController, LoginController, GetUserController} from "./userController";
+import { LoginController, GetUserController, CreateUserController} from "./userController";
 import { GetAllDisaptchByIdProcessController, DispatchUploadController, DispatchViewPdfController } from "./dispatchController";
 import {
     GetAllProcessController,
@@ -12,8 +12,8 @@ import {
 } from "../controller/processController";
 
 export {
-    GetUserController,
     CreateUserController,
+    GetUserController,
     LoginController,
     GetAllProcessController,
     GetProcessByIdController,

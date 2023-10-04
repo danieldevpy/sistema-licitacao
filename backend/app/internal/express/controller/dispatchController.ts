@@ -6,10 +6,10 @@ import { GetAllDisaptchByIdProcess } from '../../../src/application/usecase/expo
 const dispatchRepository = new SqliteDispatch();
 const fileRepository = new SqliteFile();
 
-function GetAllDisaptchByIdProcessController(req: Request, res: Response){
+async function GetAllDisaptchByIdProcessController(req: Request, res: Response){
     const id = req.params.id;
     try{
-        const dispatchs = GetAllDisaptchByIdProcess(dispatchRepository, Number(id));
+        const dispatchs = await GetAllDisaptchByIdProcess(dispatchRepository, Number(id));
         return res.json(dispatchs);
     }catch(error: any){
         res.status(400);
@@ -19,21 +19,21 @@ function GetAllDisaptchByIdProcessController(req: Request, res: Response){
 
 async function DispatchUploadController(req: Request, res: Response){
     const id_dispatch = req.params.id_dispatch;
-    //@ts-ignore
+    // @ts-ignore
     const { originalname, mimetype, buffer } = req.file;
-
-    const result = fileRepository.upload(originalname, mimetype, buffer, Number(id_dispatch));
+    const result = await fileRepository.upload(originalname, mimetype, buffer, Number(id_dispatch));
     if(!result){
-        return res.json({"error":"Não foi possível realizar o upload do arquivo."});
+        return res.status(500).json({ error: 'Ocorreu um erro ao processar o upload.' });
     }
+    console.log(result);
     res.json({"success":"O arquivo foi enviado."});
 
 }
 
-function DispatchViewPdfController(req: Request, res: Response){
+async function DispatchViewPdfController(req: Request, res: Response){
     const id_dispatch = req.params.id_dispatch;
-    console.log(id_dispatch);
-    const buffer = fileRepository.get_buffer(Number(id_dispatch));
+
+    const buffer = await fileRepository.get_buffer(Number(id_dispatch));
     if(!buffer){
         res.status(400);
         return res.json({"error": "Não foi possível visualizar o arquivo."});

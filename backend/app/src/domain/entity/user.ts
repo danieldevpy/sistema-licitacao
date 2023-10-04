@@ -1,4 +1,4 @@
-
+import bcrypt from 'bcrypt';
 
 class User{
 
@@ -25,7 +25,8 @@ class User{
         this.validateFullname(fullname);
         this.validatePassword(password);
         this.validateSectorID(sector_id);
-        const hash_password = await Bun.password.hash(password);
+        const saltRounds = 10;
+        const hash_password = await bcrypt.hash(password, saltRounds);
         return new User(username, fullname, sector_id, hash_password, is_staff, is_adm);
     }
 

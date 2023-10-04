@@ -4,9 +4,9 @@ import {GetAllSector} from '../../../src/application/usecase/export';
 
 const sectorRepository = new SqliteSector();
 
-function GetAllSectorController(req: Request, res: Response){
+async function GetAllSectorController(req: Request, res: Response){
     try{
-        const sectores = GetAllSector(sectorRepository);
+        const sectores = await GetAllSector(sectorRepository);
         return res.json(sectores);
     }catch(error: any){
         res.status(400);

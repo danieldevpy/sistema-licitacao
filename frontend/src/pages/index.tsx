@@ -283,7 +283,7 @@ export default function Home(){
                     </div>
 
                 )}
-                <ModalProcessComponent title='Despachar Processo' open={modalOpen} fclose={closeModal} process={selectedProcess} dispatchs={dispatchs}>
+                <ModalProcessComponent title={user?.is_adm? "Visualizando Processo":"Despachar Processo"} open={modalOpen} fclose={closeModal} process={selectedProcess} dispatchs={dispatchs}>
                 {user?.is_adm? (null):(
                     <Box sx={{display: "flex", flexDirection: "column", gap: 1}}>
                         <FormControl fullWidth>

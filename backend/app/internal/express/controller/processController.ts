@@ -14,9 +14,9 @@ import {
 const processRepository = new SqliteProcess();
 const dispatchRepository = new SqliteDispatch();
 
-function GetAllProcessController(req: Request, res: Response){
+async function GetAllProcessController(req: Request, res: Response){
     try{
-        const processes = GetAllProcess(processRepository, req.user);
+        const processes = await GetAllProcess(processRepository, req.user);
         return res.json(processes);
     }
     catch(error: any){
@@ -29,10 +29,10 @@ function GetProcessByIdController(req: Request, res: Response){
  
 };
 
-function CreateProcessController(req: Request, res: Response){
+async function CreateProcessController(req: Request, res: Response){
     const request: ProcessRequestInsert = req.body;
     try{
-        const process = CreateProcess(processRepository, request.number, request.object, request.sector_id);
+        const process = await CreateProcess(processRepository, request.number, request.object, request.sector_id);
         res.status(201);
         return res.json(process);
     }
@@ -42,10 +42,10 @@ function CreateProcessController(req: Request, res: Response){
     }
 };
 
-function CreateProcessAndDispatchController(req: Request, res: Response){
+async function CreateProcessAndDispatchController(req: Request, res: Response){
     const request: ProcessRequestInsert = req.body;
     try{
-        const result = CreateProcessAndDispatch(processRepository, dispatchRepository, req.user, request.number, request.object, request.sector_id);
+        const result = await CreateProcessAndDispatch(processRepository, dispatchRepository, req.user, request.number, request.object, request.sector_id);
         res.status(201);
         return res.json(result?.process);
     }
@@ -55,12 +55,12 @@ function CreateProcessAndDispatchController(req: Request, res: Response){
     }
 };
 
-function UpdateStatusProcessController(req: Request, res: Response){
+async function UpdateStatusProcessController(req: Request, res: Response){
     const id = req.params.id;
     const status = req.params.status;
     const booleanValue = status.toLowerCase() === "true";
     try{
-        const process = UpdateStatusProcess(processRepository, Number(id), booleanValue);
+        const process = await UpdateStatusProcess(processRepository, Number(id), booleanValue);
         return res.json(process)
     }catch(error: any){
         res.status(400);
@@ -68,22 +68,23 @@ function UpdateStatusProcessController(req: Request, res: Response){
     }
 }
 
-function AcceptProcessController(req: Request, res: Response){
+async function AcceptProcessController(req: Request, res: Response){
     const id_p = req.params.id_p;
     const id_s = req.params.id_s;
     try{
-        const process = AcceptProcess(processRepository, dispatchRepository, Number(id_p), Number(id_s), req.user.id);
+        const process = await AcceptProcess(processRepository, dispatchRepository, Number(id_p), Number(id_s), req.user.id);
         return res.json(process)
     }catch(error: any){
+        console.log(error);
         res.status(400);
-        res.json({"error": error.message});
+        res.json({"error": error});
     }
 }
 
-function DispatchProcessController(req: Request, res: Response){
+async function DispatchProcessController(req: Request, res: Response){
     const id = req.params.id;
     const {to_sector_id, observation } = req.body;
-    const result = DispatchProcess(processRepository, dispatchRepository, Number(id), Number(to_sector_id), observation);
+    const result = await DispatchProcess(processRepository, dispatchRepository, Number(id), Number(to_sector_id), observation);
     res.json(result);
 }
 

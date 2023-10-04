@@ -9,13 +9,14 @@ class MiddlewareAuth{
 
     private static secretKey = 'cisbaftokensecurity';
 
-    private static verifyToken(token: string): User | null {
+    private static async verifyToken(token: string): Promise<User|null> {
         try {
           const decoded = jwt.verify(token, MiddlewareAuth.secretKey) as JwtPayload;
           
           const userId = decoded.userId as number;
           if (userId) {
-            return repositoryUser.GetUser(userId);
+            const user = await repositoryUser.GetUser(userId);
+            return user
           }
       
           return null;
@@ -29,13 +30,13 @@ class MiddlewareAuth{
         return token;
     }
     
-    static PermissionUser(req: Request, res: Response, next: NextFunction){
+    static async PermissionUser(req: Request, res: Response, next: NextFunction){
         const auth = req.headers.authorization;
         if(!auth){
             res.status(401);
             return res.json({"error": "Não autenticado!"})
         }
-        const user = MiddlewareAuth.verifyToken(auth);
+        const user = await MiddlewareAuth.verifyToken(auth);
         if(!user){
             res.status(401);
             return res.json({"error": "Não autenticado!"})

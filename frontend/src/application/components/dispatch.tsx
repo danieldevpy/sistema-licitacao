@@ -29,41 +29,44 @@ export default function DispatchComponent(props: DispatchProps){
     const id = open ? 'simple-popover' : undefined;
 
     return(
-            <div>
-                <Button aria-describedby={id} color={props.item.status? "success": "error"} variant="outlined" onClick={handleClick} sx={{width: "100%", height: 70, minWidth: 250, padding: 1}}>
+        <div>
+            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                <Button aria-describedby={id} color={props.item.status? "success":"error"} variant="outlined" onClick={handleClick} sx={{height: 70, width: 250, padding: 1, fontSize: 12}}>
                 {`${props.item.from_sector} > ${props.item.to_sector}`}
-                 </Button>
-                <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    >
-                    <Box sx={{padding: 2, maxWidth: 300}}>
-                        <Typography color="grey" sx={{fontSize: 12, textAlign: "end"}}>{`~ ${props.item.user}`}</Typography>
-                        <Typography>{props.item.observation}</Typography>
-                        {props.item.fileid? (
-                            <Box sx={{display: "flex", gap: 1, alignItems: "center"}}>
-                                <Typography sx={{fontSize: 12}} color="red">PDF anexado {">"} </Typography>
-                                <a href={`${api.url}/dispatch/pdf/${props.item.fileid}`} target="_blank">
-                                    <PictureAsPdfIcon color="error"/>
-                                </a>
-                            </Box>
-                        ):(null)}
-         
-                        {props.item.status? (
-                            <Typography color="grey">{`Enviado no dia ${props.item.date}`}</Typography>
-                        ):(
-                            <Typography color="grey">{`O setor ainda não despachou o processo.`}</Typography>
-                        )}
-     
-                    </Box>
-                </Popover>
-            </div>
+                </Button>
+                <div className="arrow" style={{borderLeftColor: props.item.status? "#a6ffbc":"#ffa6a6"}}></div>
+            </Box>
 
+            <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                >
+                <Box sx={{padding: 2, maxWidth: 300}}>
+                    <Typography color="grey" sx={{fontSize: 12, textAlign: "end"}}>{`~ ${props.item.user}`}</Typography>
+                    <Typography>{props.item.observation}</Typography>
+                    {props.item.fileid? (
+                        <Box sx={{display: "flex", gap: 1, alignItems: "center"}}>
+                            <Typography sx={{fontSize: 12}} color="red">PDF anexado {">"} </Typography>
+                            <a href={`${api.url}/dispatch/pdf/${props.item.fileid}`} target="_blank">
+                                <PictureAsPdfIcon color="error"/>
+                            </a>
+                        </Box>
+                    ):(null)}
+        
+                    {props.item.status? (
+                        <Typography color="grey">{`Enviado no dia ${props.item.date}`}</Typography>
+                    ):(
+                        <Typography color="grey">{`Processo recebido pelo setor. Arguardando despache!`}</Typography>
+                    )}
+    
+                </Box>
+            </Popover>
+        </div>
     );
 }

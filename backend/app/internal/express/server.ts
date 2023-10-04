@@ -1,11 +1,10 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import MiddlewareAuth from './middleware/authMiddleware';
-import multer from "multer";
-
+import UploadMiddleware from './middleware/uploadMiddleware';
 import {
-  GetUserController,
   CreateUserController,
+  GetUserController,
   LoginController,
   GetAllProcessController,
   GetProcessByIdController,
@@ -20,14 +19,12 @@ import {
   DispatchViewPdfController
 } from './controller/export';
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
 const app = express();
+
 // middlewares globais
 app.use(cors());
 app.use(express.json())
-
 
 // rotas usuários
 app.get('/user', MiddlewareAuth.PermissionUser, GetUserController); // pegar o usuário através da authenticação
@@ -43,7 +40,8 @@ app.put('/process/dispatch/:id', MiddlewareAuth.PermissionUser, DispatchProcessC
 // rotas dos dispachos
 app.get('/dispatch/process/:id', GetAllDisaptchByIdProcessController); //pegar todos dispachos através do id do processo
 app.get('/dispatch/pdf/:id_dispatch', DispatchViewPdfController);
-app.post('/dispatch/upload/:id_dispatch', upload.single("pdf"), DispatchUploadController)
+app.post('/dispatch/upload/:id_dispatch', UploadMiddleware.PDF, DispatchUploadController);
+
 // rotas dos setores
 app.get('/sector', GetAllSectorController); // pegar todos os setores registrados no banco
 

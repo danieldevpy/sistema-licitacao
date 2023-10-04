@@ -31,14 +31,11 @@ class DispatchAPI extends ApiConfig{
 
     upload_pdf(file: File, last_dispatch: number):  Promise<ResponseAPI> {
         return new Promise(async(resolve, reject)=>{
-            const formData = new FormData();
-            formData.append('pdf', file);
-   
             try{
-                const result = await this.api_fetch(
+                const result = await this.api_fetch_no_json(
                     `${this.url}/dispatch/upload/${last_dispatch}`,
                     "POST",
-                    formData
+                    file
                 )
                 resolve(result);
             }catch(error){
