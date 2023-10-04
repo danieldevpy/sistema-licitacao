@@ -47,15 +47,16 @@ export default function ModalCreateProcessCompoennt(props: ModalProps){
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         >
-        <div className='modal' style={{backgroundColor: theme.componentBackgroundColor}}>
+        <div className='modal' style={{backgroundColor: theme.secondComponentBackgroundColor}}>
             <Typography id="modal-modal-title" variant="h6" component="h2" color={theme.textColor} style={{textAlign: "center"}}>
                 {props.title}
             </Typography>
-            <TextField id="np23" label="Numero do Processo" variant="outlined" sx={{'label': {color: theme.textColor}}} value={numberProcess} onChange={(e)=>{setNumberProcess(e.target.value)}}/>
-            <TextField id="np21" label="Objeto" variant="outlined" sx={{'label': {color: theme.textColor}}}  value={object} onChange={(e)=>{setObject(e.target.value)}}/>
+            <TextField id="np23" label="Numero do Processo" variant="outlined" sx={{'label': {color: theme.secondTextColor}}} value={numberProcess} onChange={(e)=>{setNumberProcess(e.target.value)}}/>
+            <TextField id="np21" label="Objeto" variant="outlined" sx={{'label': {color: theme.secondTextColor}}}  value={object} onChange={(e)=>{setObject(e.target.value)}}/>
             <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Setor</InputLabel>
                     <Select
+                        style={{color: theme.secondTextColor}}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={selectedSector}

@@ -25,7 +25,6 @@ async function DispatchUploadController(req: Request, res: Response){
     if(!result){
         return res.status(500).json({ error: 'Ocorreu um erro ao processar o upload.' });
     }
-    console.log(result);
     res.json({"success":"O arquivo foi enviado."});
 
 }

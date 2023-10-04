@@ -8,7 +8,7 @@ class Sqlite {
     database: sqlite3.Database;
 
     private constructor(name?: string) {
-      this.database = new sqlite3.Database('cisbafdb.sqlite');
+      this.database = new sqlite3.Database(name||'cisbafdb.sqlite');
       this.createTableUser();
       this.createTableProcess();
       this.createTableSector();

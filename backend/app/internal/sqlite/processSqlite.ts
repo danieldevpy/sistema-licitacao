@@ -37,7 +37,7 @@ class SqliteProcess implements ProcessRepository{
                 return resolve([]);
             }
             const result = rows.map(row=>{
-                return new Process(row.process_number, row.object, row.sector_id, row.sector, row.status, row.active, row.id);
+                return new Process(row.process_number, row.object, row.sector_id, row.sector, Boolean(row.status), Boolean(row.active), row.id);
             })
             return resolve(result);
         });
@@ -57,8 +57,14 @@ class SqliteProcess implements ProcessRepository{
                     return reject(undefined);
                 }
                 process.id = row.id;
-                process.active = row.active;
-                return resolve(process);
+                process.active = Boolean(row.active);
+                db.get("SELECT name FROM sector WHERE id = ?1;", [process.sector_id], (err, row: any)=>{
+                    if(err){
+                        return resolve(process);
+                    }
+                    process.sector = row.name;
+                    resolve(process);
+                })
             });
         });
     }
@@ -74,7 +80,7 @@ class SqliteProcess implements ProcessRepository{
                 if(!row){
                     return reject(undefined);
                 }
-                const process = new Process(row.process_number, row.object, row.sector_id, row.active);
+                const process = new Process(row.process_number, row.object, row.sector_id, undefined, status, row.active);
                 return resolve(process);
             });
         });

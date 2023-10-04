@@ -14,7 +14,6 @@ async function CreateUserController(req: Request, res: Response){
     const userRequest: UserRequest = req.body;
     try{
         const id = await CreateUser(userRepository, userRequest.username, userRequest.fullname, userRequest.password, userRequest.sector_id);
-        console.log(id);
         res.status(201);
         return res.json({"sucess": `o id do usuário criado é ${id}`});
     }catch(error: any){

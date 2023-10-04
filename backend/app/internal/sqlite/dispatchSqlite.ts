@@ -23,7 +23,7 @@ class SqliteDispatch implements DispatchRepository{
                     return reject(undefined);
                 }
                 dispatch.id = row.id;
-                dispatch.status = row.status;
+                dispatch.status = Boolean(row.status);
                 dispatch.date = data;
                 return resolve(dispatch);
             });

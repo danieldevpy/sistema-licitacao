@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import MiddlewareAuth from './middleware/authMiddleware';
 import UploadMiddleware from './middleware/uploadMiddleware';
@@ -41,10 +41,8 @@ app.put('/process/dispatch/:id', MiddlewareAuth.PermissionUser, DispatchProcessC
 app.get('/dispatch/process/:id', GetAllDisaptchByIdProcessController); //pegar todos dispachos através do id do processo
 app.get('/dispatch/pdf/:id_dispatch', DispatchViewPdfController);
 app.post('/dispatch/upload/:id_dispatch', UploadMiddleware.PDF, DispatchUploadController);
-
 // rotas dos setores
-app.get('/sector', GetAllSectorController); // pegar todos os setores registrados no banco
-
+app.get('/sector', MiddlewareAuth.PermissionUser, GetAllSectorController); // pegar todos os setores registrados no banco
 
 
 app.listen(3333, () => {

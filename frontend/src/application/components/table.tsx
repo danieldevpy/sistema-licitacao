@@ -11,7 +11,7 @@ export default function TableComponent(props: TableProps){
     const { theme, toggleTheme } = useTheme();
     return(
         <DataGrid
-        style={{minHeight: 400}}
+        style={{minHeight: 400, color: theme.textColor}}
         rows={props.rows||[]}
         columns={props.columns||[]}
         onRowDoubleClick={props.dClicked}

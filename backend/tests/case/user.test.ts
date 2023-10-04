@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+
 import { CreateUser, CheckAuth } from "../../app/src/application/usecase/userCase";
 import Sqlite from "../../app/internal/sqlite/sqlite";
 import SqliteUser from "../../app/internal/sqlite/userSqlite";

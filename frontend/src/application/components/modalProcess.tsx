@@ -31,16 +31,19 @@ export default function ModalProcessComponent(props: ModalProps){
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         >
-        <div className='modal' style={{backgroundColor: theme.componentBackgroundColor}}>
+        <div className='modal' style={{backgroundColor: theme.secondComponentBackgroundColor}}>
             <Typography id="modal-modal-title" variant="h6" component="h2" color={theme.textColor} style={{textAlign: "center"}}>
                 {props.title}
             </Typography>
-            <Typography id="modal-modal-sub-title" variant="h6" component="h3" color={theme.textColor}>
-                Processo: {props.process?.number}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}  color={theme.textColor}>
-                Objeto: {props.process?.object}
-            </Typography>
+            <Box sx={{display: "flex", gap: 1,  alignItems: "center"}}>
+                <Typography id="modal-modal-sub-title" sx={{fontSize: 18}} color={theme.textColor}>Processo:</Typography>
+                <Typography id="modal-modal-sub-title" color={theme.secondTextColor}>{props.process?.number}</Typography>
+            </Box>
+            <Box sx={{display: "flex", gap: 1, alignItems: "center"}}>
+                <Typography id="modal-modal-sub-title" sx={{fontSize: 18}} color={theme.textColor}>Objeto:</Typography>
+                <Typography id="modal-modal-description" color={theme.secondTextColor}>{props.process?.object}</Typography>
+            </Box>
+
             <Divider/>
             {props.dispatchs?(
                 <div style={{width: "100%", display: "flex", overflowX: "auto", gap: 5, paddingBottom: 15}}>

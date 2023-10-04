@@ -50,6 +50,8 @@ export function BadgeComponent(props: BadgeProps){
     React.useEffect(()=>{
         if(props.items.length > 0){
             setShowMenu(true);
+        }else{
+            setShowMenu(false);
         }
     }, [props.items])
 
@@ -120,7 +122,7 @@ export function BadgeComponent(props: BadgeProps){
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
             {showMenu?(
-                <List style={{backgroundColor: theme.componentBackgroundColor}}>
+                <List style={{backgroundColor: theme.secondComponentBackgroundColor}}>
                 {props.items?.map((process, index) => (
                     <Tooltip key={index+1} title="Recebido a 50 minutos" placement='left'>
                         <Box>
@@ -136,7 +138,7 @@ export function BadgeComponent(props: BadgeProps){
                 ))}
                 </List>
             ):(
-                <MenuItem selected={false}>Nenhum Processo</MenuItem>
+                <MenuItem  selected={false}>Nenhum Processo</MenuItem>
             )}
             </Menu>
             <ModalProcessComponent title='Receber Processo' open={openModal} fclose={closeModal} process={selectedProcess} dispatchs={dispatchs}>

@@ -31,7 +31,7 @@ export default function DispatchComponent(props: DispatchProps){
     return(
         <div>
             <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                <Button aria-describedby={id} color={props.item.status? "success":"error"} variant="outlined" onClick={handleClick} sx={{height: 70, width: 250, padding: 1, fontSize: 12}}>
+                <Button aria-describedby={id} color={props.item.status? "success":"error"} variant="outlined" onClick={handleClick} sx={{height: 70, width: 250, padding: 1, fontSize: 12,}}>
                 {`${props.item.from_sector} > ${props.item.to_sector}`}
                 </Button>
                 <div className="arrow" style={{borderLeftColor: props.item.status? "#a6ffbc":"#ffa6a6"}}></div>
@@ -47,9 +47,9 @@ export default function DispatchComponent(props: DispatchProps){
                     horizontal: 'left',
                 }}
                 >
-                <Box sx={{padding: 2, maxWidth: 300}}>
-                    <Typography color="grey" sx={{fontSize: 12, textAlign: "end"}}>{`~ ${props.item.user}`}</Typography>
-                    <Typography>{props.item.observation}</Typography>
+                <Box sx={{padding: 2, maxWidth: 300, backgroundColor: theme.componentBackgroundColor}}>
+                    <Typography color={theme.threeTextColor} sx={{fontSize: 12, textAlign: "end"}}>{`~ ${props.item.user}`}</Typography>
+                    <Typography color={theme.secondTextColor}>{props.item.observation}</Typography>
                     {props.item.fileid? (
                         <Box sx={{display: "flex", gap: 1, alignItems: "center"}}>
                             <Typography sx={{fontSize: 12}} color="red">PDF anexado {">"} </Typography>
@@ -60,9 +60,9 @@ export default function DispatchComponent(props: DispatchProps){
                     ):(null)}
         
                     {props.item.status? (
-                        <Typography color="grey">{`Enviado no dia ${props.item.date}`}</Typography>
+                        <Typography color={theme.threeTextColor}>{`Enviado no dia ${props.item.date}`}</Typography>
                     ):(
-                        <Typography color="grey">{`Processo recebido pelo setor. Arguardando despache!`}</Typography>
+                        <Typography color={theme.threeTextColor} sx={{fontSize: 14}}>{`Processo aceito no dia ${props.item.date}. Aguardando o despache!`}</Typography>
                     )}
     
                 </Box>

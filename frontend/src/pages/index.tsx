@@ -99,9 +99,13 @@ export default function Home(){
             if(response.status == 201){
                 const copy = [...processes, response.data]
                 setProcesses(copy);
+                setModalCreateOpen(false);
                 setSnackProps({type: "success", message: "Processo criado e encaminhado!", open: true})
+            }else{
+                if(response.data.error){
+                    setSnackProps({type: "error", message: response.data.error, open: true})
+                }
             }
-            setModalCreateOpen(false);
         })
         
     }
@@ -112,11 +116,11 @@ export default function Home(){
     }
 
     const closeModal =()=>{
-        if(dispatchs){
-            const last = dispatchs[dispatchs?.length-1];
-            last.observation = textObs;
-            saveDispatch(last);
-        }
+        // if(dispatchs){
+        //     const last = dispatchs[dispatchs?.length-1];
+        //     last.observation = textObs;
+        //     saveDispatch(last);
+        // }
         setSelectedProcess(undefined);
         setModalOpen(false);
     }
@@ -140,19 +144,14 @@ export default function Home(){
                         try{
                             const last_dispatch = dispatchs[dispatchs.length-1];
                             const response = await api_dispatch.upload_pdf(selectedFile, last_dispatch.id);
-                            console.log("r", response);
                         }catch(error){
-                            console.log("e", error);
                         }
                     }
-        
-                  
                     const new_processes = processes.filter((p)=>p.id != process.id);
-                    const new_table = new_processes.filter((p)=>p.status == true);
                     setProcesses(new_processes);
-                    setTableProcesses(new_table);
                     closeModal();
                     setSelectedSector('');
+                    setTextObs('');
                     setDispatchs(undefined);
                     setSnackProps({type: "success", message: `O processo foi despachado`, open: true})
                 }
@@ -173,6 +172,8 @@ export default function Home(){
                 setTableProcesses(new_table);
                 setAwaitProcess(new_awaits);
                 setSnackProps({type: "success", message: "Processo Recebido", open: true})
+            }else{
+                setSnackProps({type: "error", message: "Algum erro ocorreu avise o suporte de TI", open: true})
             }
         })
     }
@@ -287,10 +288,11 @@ export default function Home(){
                 {user?.is_adm? (null):(
                     <Box sx={{display: "flex", flexDirection: "column", gap: 1}}>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Setor</InputLabel>
+                            <InputLabel id="in-label" style={{color: theme.secondTextColor}}>Setor</InputLabel>
                             <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
+                                labelId="select-label despach"
+                                id="select-despach"
+                                style={{color: theme.secondTextColor}}
                                 value={selectedSector}
                                 label="Setor"
                                 onChange={(e)=>{setSelectedSector(e.target.value)}}
@@ -307,6 +309,17 @@ export default function Home(){
                         rows={4}
                         placeholder='Envie uma observação para o proximo setor!'
                         variant="filled"
+                        sx={{
+                            '& label.Mui-focused': {
+                                color: theme.threeTextColor,
+                              },
+                            '& label':{
+                                color: theme.secondTextColor
+                            },
+                            '&MuiInputBase-input':{
+                                color: theme.secondTextColor
+                            }
+                        }}
                         value={textObs}
                         onChange={(e)=>{setTextObs(e.target.value)}}
                         />

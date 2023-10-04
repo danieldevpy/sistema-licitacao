@@ -39,6 +39,8 @@ class Process{
             throw new Error('Insira um objeto.');
         }else if (typeof object !== 'string') {
             throw new Error('O objeto deve ser uma string.');
+        }else if(object.length < 3){
+            throw new Error('O objeto deve conter mais do que 3 caracters.'); 
         }
     }
 

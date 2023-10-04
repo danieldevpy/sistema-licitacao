@@ -1,22 +1,47 @@
-import { expect, test } from "bun:test";
+
 import Sqlite from "../../app/internal/sqlite/sqlite";
 import { CreateProcess, GetAllProcess, CreateProcessAndDispatch, UpdateStatusProcess, AcceptProcess, GetAllDisaptchByIdProcess, DispatchProcess } from "../../app/src/application/usecase/export";
 import {SqliteProcess, SqliteSector, SqliteDispatch} from "../../app/internal/sqlite/export";
-import {User} from "../../app/src/domain/entity/export";
+import {Sector, User} from "../../app/src/domain/entity/export";
 
-Sqlite.getInstance(":memory:")
 
-const processRepository = new SqliteProcess();
-const sectorRepository = new SqliteSector();
-const dispatchRepository = new SqliteDispatch();
 
-const sector_recepcao = sectorRepository.CreateSector("Recepcao");
-const sector_ti = sectorRepository.CreateSector("TI");
-const sector_compras = sectorRepository.CreateSector("Compras")
-const user = new User("Test", "Full name", sector_recepcao.id, "undefined", true, undefined, 1)
+var processRepository: SqliteProcess;
+var sectorRepository : SqliteSector;
+var dispatchRepository: SqliteDispatch;
 
-test("Criar Processo", ()=>{
-    const process = CreateProcess(processRepository, "5548778332", "Teste", sector_ti.id);
+var sector_recepcao: Sector;
+var sector_ti: Sector;
+var sector_compras: Sector;
+var user: User;
+
+
+async function time(){
+    return new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+            resolve('');
+        }, 1000)
+    })
+}
+
+
+beforeAll(async() => {
+    Sqlite.getInstance(":memory:")
+    processRepository = new SqliteProcess();
+    sectorRepository = new SqliteSector();
+    dispatchRepository = new SqliteDispatch();
+    await time();
+    sector_recepcao = await sectorRepository.CreateSector("Recepcao");
+    sector_ti = await sectorRepository.CreateSector("TI");
+    sector_compras = await sectorRepository.CreateSector("Compras");
+    user = new User("Test", "Full name", sector_recepcao.id, "undefined", true, undefined, 1);
+  });
+
+
+
+
+test("Criar Processo", async()=>{
+    const process = await CreateProcess(processRepository, "5548778332", "Teste", sector_ti.id);
     expect(process.id).toEqual(1);
     expect(process.sector_id).toEqual(sector_ti.id);
     expect(process.status).toEqual(false);
@@ -24,12 +49,12 @@ test("Criar Processo", ()=>{
 })
 
 test("Pegar Todos Processos", async()=>{
-    const processes = GetAllProcess(processRepository, user);
+    const processes = await GetAllProcess(processRepository, user);
     expect(processes.length).toEqual(1);
 })
 
-test("Criar Processos e Despachos", ()=>{
-    const result = CreateProcessAndDispatch(
+test("Criar Processos e Despachos", async()=>{
+    const result = await CreateProcessAndDispatch(
                     processRepository, dispatchRepository, user, "777777",
                     "Novo", sector_ti.id);
     expect(result?.process).toBeDefined();
@@ -43,15 +68,15 @@ test("Criar Processos e Despachos", ()=>{
     expect(result?.dispatch.status).toEqual(true);
 })
 
-test("Pegar Todos Processos novamente", ()=>{
-    const processes = GetAllProcess(processRepository, user);
+test("Pegar Todos Processos novamente", async ()=>{
+    const processes = await GetAllProcess(processRepository, user);
     expect(processes.length).toEqual(2);
 })
 
-test("Aceitar Processo", ()=>{
-    const p = GetAllProcess(processRepository, user)[1];
+test("Aceitar Processo", async()=>{
+    const p = (await GetAllProcess(processRepository, user))[1];
     expect(p.id).toBeDefined();
-    const result = AcceptProcess(processRepository, dispatchRepository, p.id, p.sector_id, user.id);
+    const result = await AcceptProcess(processRepository, dispatchRepository, p.id, p.sector_id, user.id);
     expect(p.status).not.toEqual(result.process.status);
     expect(result.process).toBeDefined();
     expect(result.dispatch).toBeDefined();
@@ -59,21 +84,21 @@ test("Aceitar Processo", ()=>{
     expect(result.dispatch.status).toEqual(false);
 })
 
-test("Update Status Process", ()=>{
-    const p = GetAllProcess(processRepository, user)[1];
+test("Update Status Process", async()=>{
+    const p = (await GetAllProcess(processRepository, user))[1];
     expect(p.id).toBeDefined();
-    const process = UpdateStatusProcess(processRepository, p.id, false);
+    const process = await UpdateStatusProcess(processRepository, p.id, false);
     expect(p.status).not.toEqual(process.status);
-    const dispatchs = GetAllDisaptchByIdProcess(dispatchRepository, p.id);
+    const dispatchs = await GetAllDisaptchByIdProcess(dispatchRepository, p.id);
     expect(dispatchs.length).toEqual(2);
 })
 
-test('Dispatch Process', ()=>{
-    const p = GetAllProcess(processRepository, user)[1];
+test('Dispatch Process', async()=>{
+    const p = (await GetAllProcess(processRepository, user))[1];
     const obs = "Primeiro despache";
-    const result = DispatchProcess(processRepository, dispatchRepository, p.id, sector_compras.id, obs);
+    const result = await DispatchProcess(processRepository, dispatchRepository, p.id, sector_compras.id, obs);
     expect(result).toEqual(true);
-    const dispatchs = GetAllDisaptchByIdProcess(dispatchRepository, p.id);
+    const dispatchs = await GetAllDisaptchByIdProcess(dispatchRepository, p.id);
     expect(dispatchs.length).toEqual(2);
     const dispatch = dispatchs[1];
     expect(dispatch.process_id).toEqual(p.id);
