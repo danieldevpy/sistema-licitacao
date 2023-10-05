@@ -45,10 +45,25 @@ class Sqlite {
           sector_id INTEGER NOT NULL,
           status INTEGER NOT NULL DEFAULT 0,
           active INTEGER NOT NULL DEFAULT 1,
+          last_update DATETIME DEFAULT (datetime('now', 'localtime')),
           FOREIGN KEY (sector_id) REFERENCES sector(id)
       );
         `
-      this.database.run(query);
+      const query2 = `
+        CREATE TRIGGER IF NOT EXISTS update_last_update AFTER UPDATE OF status ON process
+        FOR EACH ROW
+        BEGIN
+            UPDATE process
+            SET last_update = DATETIME('now', 'localtime')
+            WHERE id = NEW.id;
+        END;
+      `
+      this.database.run(query, (err)=>{
+        if(!err){
+          this.database.run(query2)
+        }
+      });
+
     }
 
     private createTableSector(){

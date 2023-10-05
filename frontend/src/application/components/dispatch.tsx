@@ -47,9 +47,9 @@ export default function DispatchComponent(props: DispatchProps){
                     horizontal: 'left',
                 }}
                 >
-                <Box sx={{padding: 2, maxWidth: 300, backgroundColor: theme.componentBackgroundColor}}>
+                <Box sx={{padding: 2, maxWidth: 400, backgroundColor: theme.componentBackgroundColor}}>
                     <Typography color={theme.threeTextColor} sx={{fontSize: 12, textAlign: "end"}}>{`~ ${props.item.user}`}</Typography>
-                    <Typography color={theme.secondTextColor}>{props.item.observation}</Typography>
+                    <Typography color={theme.secondTextColor} sx={{lineBreak: "anywhere"}}>{props.item.observation}</Typography>
                     {props.item.fileid? (
                         <Box sx={{display: "flex", gap: 1, alignItems: "center"}}>
                             <Typography sx={{fontSize: 12}} color="red">PDF anexado {">"} </Typography>

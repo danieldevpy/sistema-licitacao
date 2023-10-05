@@ -1,4 +1,4 @@
-
+import moment from "moment";
 
 class Process{
     id: number;
@@ -8,22 +8,25 @@ class Process{
     sector_id: number;
     status: boolean;
     active: boolean;
+    last_update: string;
 
-    constructor(number: string, object: string, sector_id: number, sector?: string, status?: boolean, active?: boolean, id?: number){
-        this.id = id||0;
+    constructor(id: number, number: string, object: string, sector: string, sector_id: number, status: boolean, active: boolean, last_update: string){
+        this.id = id;
         this.number = number;
         this.object = object;
-        this.sector = sector||"null";
+        this.sector = sector;
         this.sector_id = sector_id;
         this.status = Boolean(status);
         this.active = Boolean(active);
+        this.last_update = last_update;
+        this.convert_date();
     }
 
-    static create(number: string, object: string, sector_id: number, sector?: string, status?: boolean, active?: boolean, id?: number){
+    static create(number: string, object: string, sector_id: number, sector?: string, status?: boolean, active?: boolean, last_update?: string, id?: number){
         this.validateNumber(number);
         this.validateObject(object);
         this.validateSector(sector_id);
-        return new Process(number, object, sector_id, sector, status, active, id);
+        return new Process(id||0, number, object, sector||"null", sector_id, status||false, active||false, last_update||"null");
     }
 
     private static validateNumber(number: string){
@@ -49,6 +52,19 @@ class Process{
             throw new Error('Insira um setor.');
         }else if (typeof sector_id !== 'number') {
             throw new Error('O setor deve ser um numero');
+        }
+    }
+
+    private convert_date(){
+        if(this.last_update !== "null"){
+            try{
+                const data = new Date(this.last_update);
+                const dataMoment = moment(data);
+                const dataFormatada = dataMoment.format('DD-MM-YYYY HH:mm:ss'); 
+                this.last_update = dataFormatada;
+            }catch{
+                return
+            }
         }
     }
 }

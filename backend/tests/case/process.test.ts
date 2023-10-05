@@ -46,6 +46,7 @@ test("Criar Processo", async()=>{
     expect(process.sector_id).toEqual(sector_ti.id);
     expect(process.status).toEqual(false);
     expect(process.active).toEqual(true);
+    expect(process.last_update).toBeDefined();
 })
 
 test("Pegar Todos Processos", async()=>{
@@ -62,6 +63,7 @@ test("Criar Processos e Despachos", async()=>{
     expect(result?.process.sector_id).toEqual(sector_ti.id);
     expect(result?.process.status).toEqual(false);
     expect(result?.process.active).toEqual(true);
+    expect(result?.process.last_update).toBeDefined();
     expect(result?.dispatch.process_id).toEqual(result?.process.id);
     expect(result?.dispatch.from_sector_id).toEqual(sector_recepcao.id);
     expect(result?.dispatch.to_sector_id).toEqual(sector_ti.id);
@@ -77,11 +79,14 @@ test("Aceitar Processo", async()=>{
     const p = (await GetAllProcess(processRepository, user))[1];
     expect(p.id).toBeDefined();
     const result = await AcceptProcess(processRepository, dispatchRepository, p.id, p.sector_id, user.id);
-    expect(p.status).not.toEqual(result.process.status);
+    console.log(p.last_update, result.process.last_update)
+    expect(result.process.status).not.toEqual(p.status);
+    expect(result.process.last_update).not.toEqual(p.last_update);
     expect(result.process).toBeDefined();
     expect(result.dispatch).toBeDefined();
     expect(result.dispatch.to_sector_id).toEqual(0);
     expect(result.dispatch.status).toEqual(false);
+
 })
 
 test("Update Status Process", async()=>{

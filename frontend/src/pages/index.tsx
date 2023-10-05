@@ -97,7 +97,7 @@ export default function Home(){
         api_process.create_process(number, obj, sector)
         .then(response=>{
             if(response.status == 201){
-                const copy = [...processes, response.data]
+                const copy = [...processes, Process.ConvertToClass(response.data)]
                 setProcesses(copy);
                 setModalCreateOpen(false);
                 setSnackProps({type: "success", message: "Processo criado e encaminhado!", open: true})
@@ -167,7 +167,7 @@ export default function Home(){
         .then(response=>{
             if(response.status == 200){
                 const new_table = [...tableProcesses];
-                new_table.push(new Process(process.id, process.number, process.object, process.sector, process.sector_id, process.status, process.active));
+                new_table.push(new Process(process.id, process.number, process.object, process.sector, process.sector_id, process.status, process.active, process.last_update));
                 const new_awaits = awaitProcess.filter((p)=> p.id !== process.id);
                 setTableProcesses(new_table);
                 setAwaitProcess(new_awaits);

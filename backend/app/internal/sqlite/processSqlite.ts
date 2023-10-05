@@ -16,13 +16,13 @@ class SqliteProcess implements ProcessRepository{
         var params: any = [];
         if(user.is_adm || user.is_staff){
             query_string = `
-            SELECT process.id, process_number, object, sector_id, sector.name AS sector, status, active
+            SELECT process.id, process_number, object, sector_id, sector.name AS sector, status, active, last_update
             FROM process
             JOIN sector ON process.sector_id = sector.id;
             `
         }else{
             query_string = `
-            SELECT process.id, process_number, object, sector_id, sector.name AS sector, status, active
+            SELECT process.id, process_number, object, sector_id, sector.name AS sector, status, active, last_update
             FROM process
             JOIN sector ON process.sector_id = sector.id
             WHERE sector_id = ?1;
@@ -37,7 +37,7 @@ class SqliteProcess implements ProcessRepository{
                 return resolve([]);
             }
             const result = rows.map(row=>{
-                return new Process(row.process_number, row.object, row.sector_id, row.sector, Boolean(row.status), Boolean(row.active), row.id);
+                return new Process(row.id, row.process_number, row.object, row.sector, row.sector_id, row.status, row.active, row.last_update);
             })
             return resolve(result);
         });
@@ -48,7 +48,7 @@ class SqliteProcess implements ProcessRepository{
     CreateProcess(process: Process): Promise<Process> {
        return new Promise((resolve, reject)=>{
             const db = this.sqlite.get_db();
-            const query = "INSERT INTO process (process_number, object, sector_id) VALUES (?1, ?2, ?3) RETURNING id, active;";
+            const query = "INSERT INTO process (process_number, object, sector_id) VALUES (?1, ?2, ?3) RETURNING id, active, last_update;";
             db.get(query, [process.number, process.object, process.sector_id], (err, row: any)=>{
                 if(err){
                     return reject(err);
@@ -58,6 +58,7 @@ class SqliteProcess implements ProcessRepository{
                 }
                 process.id = row.id;
                 process.active = Boolean(row.active);
+                process.last_update = row.last_update;
                 db.get("SELECT name FROM sector WHERE id = ?1;", [process.sector_id], (err, row: any)=>{
                     if(err){
                         return resolve(process);
@@ -80,8 +81,17 @@ class SqliteProcess implements ProcessRepository{
                 if(!row){
                     return reject(undefined);
                 }
-                const process = new Process(row.process_number, row.object, row.sector_id, undefined, status, row.active);
-                return resolve(process);
+                const process = new Process(id, row.process_number, row.object, "null", row.sector_id, status, row.active, "null");
+                db.get('SELECT last_update FROM process WHERE id = ?1', [id], (err, last_row:any)=>{
+                    if(err){
+                        return resolve(process);
+                    }
+                    if(!last_row){
+                        return resolve(process);
+                    }
+                    process.last_update = last_row.last_update;
+                    return resolve(process);
+                })
             });
         });
     }
