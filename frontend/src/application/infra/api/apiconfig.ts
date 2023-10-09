@@ -17,7 +17,7 @@ export class ApiConfig{
     expire: number;
 
     constructor(){
-        this.url = "http://192.168.1.113:3333";
+        this.url = "http://192.168.1.232:3333";
         this.expire = 1296000000;
     }
 
