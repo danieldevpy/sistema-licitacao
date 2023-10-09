@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -37,32 +39,7 @@
   padding-right: 25px;
   padding-top: 25px;
 }
-.boxlogin{
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.boxlogin > div{
-  display: flex;
-  gap: 25px;
-  border-radius: 9px;
-  padding: 20px;
-}
-.boxlogin > div > div{
-  gap: 10px;
-  justify-content: center;
-  padding: 20px;
-}
-.boxlogin > div > div:first-child{
-  display: flex;
-  align-items: center;
-}
-.logo{
-  width: 300px;
-  
-}
+
 .modal{
   min-width: 40%;
   max-width: 60%;
@@ -86,18 +63,53 @@
   border-left: 8px solid; /* Cor da seta (neste caso, preta) */
 }
 
+.boxlogin{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+
+}
+.boxlogin > div{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+}
+
+.boxlogin-bottom{
+  display: flex;
+  padding-top: 2%;
+  justify-content: center;
+}
+.boxlogin-bottom > div{
+  max-width: 40%;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: aliceblue;
+  gap: 10px;
+  border-radius: 20px;
+}
+.logo{
+  width: 200px;
+}
+
+@media (max-width: 800px){
+  .boxlogin-bottom > div{
+    max-width: 100%;
+    width: 80%;
+  }
+}
+
 @media (max-width: 574px){
+  .boxlogin-bottom > div{
+    max-width: 100%;
+    width: 100%;
+  }
   .boxmain{
     padding: 2px;
     padding-top: 10px;
-  }
-  .boxlogin{
-    background-color: white;
-  }
-  .boxlogin > div{
-    width: 100%;
-    flex-direction: column;
-    gap: 40px;
   }
   .logo{
     width: 250px;

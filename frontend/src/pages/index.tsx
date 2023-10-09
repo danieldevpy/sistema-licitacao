@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import ProcessAPI from '@/application/infra/api/process';
 import Process from '@/domain/entity/process';
 import SectorAPI from '@/application/infra/api/sector';
-import { Skeleton } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 import { BadgeComponent } from '@/application/components/badge';
 import {TableComponent, HeaderComponent} from '@/application/components/export';
 import ColumnProcessSector from '@/application/infra/configs/columns';
@@ -25,6 +25,9 @@ import {User} from '@/domain/entity/user';
 import ModalCreateProcessCompoennt from '@/application/components/modalCreate';
 import Box from '@mui/material/Box';
 import FileUpload from '@/application/components/fileUpload';
+import ResponsiveAppBar from '@/application/components/appBar';
+import { SettingsBar } from '@/application/components/appBar';
+
 
 interface SnackProps{
     message?: string;
@@ -32,6 +35,7 @@ interface SnackProps{
     open: boolean;
 }
 
+  
 export default function Home(){
     const { theme, toggleTheme } = useTheme();
     const router = useRouter();
@@ -53,6 +57,9 @@ export default function Home(){
     const [user, setUser] = React.useState<User>();
     const [modalCreateOpen, setModalCreateOpen] = React.useState(false);
     const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+    const [pages, setPages] = React.useState<SettingsBar[]>([])
+    
+    
 
     
     const handleFileSelect = (file: File) => {
@@ -111,7 +118,9 @@ export default function Home(){
     }
 
     const selectProcess =(process: any)=>{
-        setSelectedProcess(Process.ConvertToClass(process.row));
+        const selected = tableProcesses.filter(p=>p.id == process.row.id)[0]
+        console.log(selected.last_update)
+        setSelectedProcess(selected);
         setModalOpen(true);
     }
 
@@ -240,13 +249,14 @@ export default function Home(){
         if(coockie){
             api_process.set_cookie(String(coockie));
         }
-        const _user = getLocalStorageItem('user');
+        const _user: User = getLocalStorageItem('user');
         if(!_user){
             router.push('/logout')
         }
         setUser(_user);
         request_api();
         handleResize();
+        setPages([{name: "+ Novo Contrato", onClick: ()=>{setModalCreateOpen(true)}, isAdm: _user.is_adm }])
         window.addEventListener('resize', handleResize);
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -258,19 +268,33 @@ export default function Home(){
     return(
         <div className='w-screen h-screen' style={{backgroundColor:theme.pageBackgroundColor}}>
             <div className='main'>
-                <HeaderComponent>
-                    <div>
+                <ResponsiveAppBar menu={pages} user={user}>
+                    {!user?.is_adm && !user?.is_staff? (
+                          <BadgeComponent items={awaitProcess} count={awaitProcess?.length} toolTip='Processos Pendentes' recieve={recieveProcess}/>
+                    ):(null)}
+                </ResponsiveAppBar>
+                {/* <HeaderComponent> */}
+                    {/* <div>
                         {user?.is_adm? (
                             <Button onClick={()=>{setModalCreateOpen(true)}}>+ Novo Processo</Button>
                         ):(
-                            <BadgeComponent items={awaitProcess} count={awaitProcess?.length} toolTip='Processos Pendentes' recieve={recieveProcess}/>
+                          
                         )}
                     
-                    </div>
-                </HeaderComponent>
+                    </div> */}
+                {/* </HeaderComponent> */}
                 {visible? (
                     <div className="boxmain" style={{backgroundColor: theme.componentBackgroundColor}}>
-                        <label style={{color: theme.textColor}}>Lista de Processos</label>
+                        <Typography  sx={{
+                        marginLeft: 2,
+                        mr: 2,
+                        fontFamily: 'monospace',
+                        fontWeight: 700,
+                        letterSpacing: '.0rem',
+                        color: 'inherit',
+                        textDecoration: 'none',
+                        }}>LISTA DE PROCESSOS</Typography>
+                        
                         <TableComponent columns={columns} rows={tableProcesses} dClicked={selectProcess}/>
                     </div>
                 ):(

@@ -29,16 +29,16 @@ class Process{
     }
 
     private async set_configs(){
-        if(this.last_update){
+        if(this.status_name == "" && this.last_update){
             const data1 = moment(this.last_update)
             const data2 = moment(moment().format('DD-MM-YYYY HH:mm:ss'));
             const diferencaFormatada = moment.duration(data2.diff(data1)).humanize(); // Diferença formatada
             this.last_update = diferencaFormatada;
         }
         if(this.status){
-            this.status_name = `Aguardado despache (${this.last_update})`;
+            this.status_name = `Há (${this.last_update}) no setor ${this.sector}`;
         }else{
-            this.status_name = `O setor não aceitou o contrato há ${this.last_update}`
+            this.status_name = `Aguardando recebimento pelo setor ${this.sector} há (${this.last_update})`
         }
     }
 

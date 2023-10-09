@@ -6,9 +6,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Authenticate from '@/application/infra/api/authentication';
 import imgLic from '../application/assets/img/licitacao.png'
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 import SnackBarComponent from '@/application/components/snackBar';
-
+import ResponsiveAppBar from '@/application/components/appBar';
 
 interface SnackProps{
     message?: string;
@@ -69,19 +69,33 @@ export default function LoginPage(){
     return (
         <div className='boxlogin' style={{backgroundColor: "#F5F5F5"}}>
             {visible? (
-                <div className='bg-white p-7'>
                 <div>
-                    <img src={imgLic.src} className='logo'/>
+                    <div>
+                        <ResponsiveAppBar disableMenu={true} disableAccount={true}/> 
+                    </div>
+                    <div className='boxlogin-bottom'>
+                        <div>
+                            <div style={{backgroundColor: "#11558d", display: "flex", justifyContent: "center", marginBottom: 20, borderRadius: 6}}>
+                                <img src={imgLic.src} className='logo'/>
+                            </div>
+                            <Typography  sx={{
+                                mr: 2,
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.0rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                                }}>CONTROLE DE PROCESSOS</Typography>
+                                
+                            <TextField id="outlined-basic"  className="txtf" label="Usuario" value={username} onChange={(e)=>{setUsername(e.target.value)}} variant="outlined" />
+                            <TextField id="outlined-basic" label="Senha" value={password} onChange={(e)=>{setPassword(e.target.value)}} type='password' variant="outlined" />
+                            <Button variant="contained" color="success" className='bg-slate-500' onClick={login} disabled={loading}>
+                                {loading? (<CircularProgress />):("ACESSAR")}
+                            </Button>
+                        </div>
+                        
+                    </div>
                 </div>
-                <div className=' flex flex-col gap-2'>
-                    <h1>Sistema de Licitação CISBAF</h1>
-                    <TextField id="outlined-basic" label="Usuario" value={username} onChange={(e)=>{setUsername(e.target.value)}} variant="outlined" />
-                    <TextField id="outlined-basic" label="Senha" value={password} onChange={(e)=>{setPassword(e.target.value)}} type='password' variant="outlined" />
-                    <Button variant="contained" color="success" className='bg-slate-500' onClick={login} disabled={loading}>
-                        {loading? (<CircularProgress />):("ACESSAR")}
-                    </Button>
-                </div>
-            </div>
             ):(null)}
             <SnackBarComponent snack={snackBarProps}/>
         </div>

@@ -43,6 +43,10 @@ export default function ModalProcessComponent(props: ModalProps){
                 <Typography id="modal-modal-sub-title" sx={{fontSize: 18}} color={theme.textColor}>Objeto:</Typography>
                 <Typography id="modal-modal-description" color={theme.secondTextColor}>{props.process?.object}</Typography>
             </Box>
+            <Box sx={{display: "flex", gap: 1, alignItems: "center", justifyContent: "c"}}>
+                <Typography id="modal-modal-sub-title" sx={{fontSize: 18}} color={theme.textColor}>Status:</Typography>
+                <Typography id="modal-modal-description" sx={{maxWidth: "80%"}} color={theme.secondTextColor}>{props.process?.status_name}</Typography>
+            </Box>
 
             <Divider/>
             {props.dispatchs?(
