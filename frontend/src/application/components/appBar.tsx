@@ -131,7 +131,7 @@ function ResponsiveAppBar(props: PropsBar) {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
          
               {props.menu?.map((page, index) => (
-              <Box>
+              <Box key={index}>
                 {page.isAdm? (
                     <Button
                     key={index}
