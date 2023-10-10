@@ -9,6 +9,7 @@ import imgLic from '../application/assets/img/licitacao.png'
 import { CircularProgress, Typography } from '@mui/material';
 import SnackBarComponent from '@/application/components/snackBar';
 import ResponsiveAppBar from '@/application/components/appBar';
+import Head from 'next/head';
 
 interface SnackProps{
     message?: string;
@@ -71,6 +72,9 @@ export default function LoginPage(){
             {visible? (
                 <div>
                     <div>
+                        <Head>
+                            <title>Controle de Processos LOGIN</title>
+                        </Head>
                         <ResponsiveAppBar disableMenu={true} disableAccount={true}/> 
                     </div>
                     <div className='boxlogin-bottom'>

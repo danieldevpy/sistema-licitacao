@@ -27,6 +27,7 @@ import Box from '@mui/material/Box';
 import FileUpload from '@/application/components/fileUpload';
 import ResponsiveAppBar from '@/application/components/appBar';
 import { SettingsBar } from '@/application/components/appBar';
+import Head from 'next/head'
 
 
 interface SnackProps{
@@ -57,10 +58,7 @@ export default function Home(){
     const [user, setUser] = React.useState<User>();
     const [modalCreateOpen, setModalCreateOpen] = React.useState(false);
     const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-    const [pages, setPages] = React.useState<SettingsBar[]>([])
-    
-    
-
+    const [pages, setPages] = React.useState<SettingsBar[]>([]);
     
     const handleFileSelect = (file: File) => {
         setSelectedFile(file);
@@ -72,9 +70,7 @@ export default function Home(){
             api_dispatch.get_dispatch(selectedProcess.id)
             .then(response=>{
                 if(response.status == 200){
-                    console.log(response.data)
                     const dispatch:Dispatch[] = response.data;
-                    console.log(dispatch)
                     const last_obs = dispatch[dispatch.length-1].observation;
                     if(last_obs){
                         setTextObs(last_obs);
@@ -121,7 +117,6 @@ export default function Home(){
 
     const selectProcess =(process: any)=>{
         const selected = tableProcesses.filter(p=>p.id == process.row.id)[0]
-        console.log(selected.last_update)
         setSelectedProcess(selected);
         setModalOpen(true);
     }
@@ -269,6 +264,9 @@ export default function Home(){
 
     return(
         <div className='w-screen h-screen' style={{backgroundColor:theme.pageBackgroundColor}}>
+            <Head>
+                <title>Controle de Processos CISBAF</title>
+            </Head>
             <div className='main'>
                 <ResponsiveAppBar menu={pages} user={user}>
                     {!user?.is_adm && !user?.is_staff? (

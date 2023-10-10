@@ -40,7 +40,7 @@ function ResponsiveAppBar(props: PropsBar) {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [settings, setSettings] = React.useState<SettingsBar[]>([
     {name: "Perfil", onClick: ()=>{}},
-    {name: "Logout", onClick: ()=>{router.push('/logout')}},
+    {name: "Sair", onClick: ()=>{router.push('/logout')}},
   ])
 
 
@@ -67,7 +67,7 @@ function ResponsiveAppBar(props: PropsBar) {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               fontFamily: 'monospace',
@@ -149,7 +149,7 @@ function ResponsiveAppBar(props: PropsBar) {
         {props.disableAccount?(null):(
           <Box sx={{ flexGrow: 0, display: "flex", gap: 3, alignItems: "center"}}>
             {props.children}
-          <Tooltip title="Open settings">
+          <Tooltip title="Abrir Configurações">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar alt="Remy Sharp" >{props.user?.fullname.slice(0,1)}</Avatar>
             </IconButton>
