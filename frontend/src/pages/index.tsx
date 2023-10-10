@@ -72,7 +72,9 @@ export default function Home(){
             api_dispatch.get_dispatch(selectedProcess.id)
             .then(response=>{
                 if(response.status == 200){
+                    console.log(response.data)
                     const dispatch:Dispatch[] = response.data;
+                    console.log(dispatch)
                     const last_obs = dispatch[dispatch.length-1].observation;
                     if(last_obs){
                         setTextObs(last_obs);
@@ -225,7 +227,7 @@ export default function Home(){
 
     React.useEffect(()=>{
         if(processes){
-            if(user?.is_adm){
+            if(user?.is_staff){
                 const p = processes.map((p)=>{return Process.ConvertToClass(p)});
                 setTableProcesses(p);
                 return
@@ -308,8 +310,8 @@ export default function Home(){
                     </div>
 
                 )}
-                <ModalProcessComponent title={user?.is_adm? "Visualizando Processo":"Despachar Processo"} open={modalOpen} fclose={closeModal} process={selectedProcess} dispatchs={dispatchs}>
-                {user?.is_adm? (null):(
+                <ModalProcessComponent title={user?.is_staff? "Visualizando Processo":"Despachar Processo"} open={modalOpen} fclose={closeModal} process={selectedProcess} dispatchs={dispatchs}>
+                {user?.is_staff? (null):(
                     <Box sx={{display: "flex", flexDirection: "column", gap: 1}}>
                         <FormControl fullWidth>
                             <InputLabel id="in-label" style={{color: theme.secondTextColor}}>Setor</InputLabel>
