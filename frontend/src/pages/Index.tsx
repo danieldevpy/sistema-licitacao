@@ -3,8 +3,10 @@ import { User } from "../domain/user";
 import { getLocalStorageItem } from "../application/infra/armazenamento/localStorage";
 import { getCookie } from "../application/infra/armazenamento/coockie";
 import SectorIndex from "../components/single/sectorIndex";
+import { useNavigate } from "react-router-dom";
 
 export default function IndexPage(){
+    const navigate = useNavigate();
     const [user, setUser] = React.useState<User>();
 
     const renderComponent =(_user: User|undefined)=>{
@@ -17,7 +19,7 @@ export default function IndexPage(){
     }
 
     const to_logout =()=>{
-        window.location.href = '/login';
+        navigate("/logout");
         return <></>
     }
 

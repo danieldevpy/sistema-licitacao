@@ -6,11 +6,13 @@ import imgLic from '../assets/img/licitacao.png'
 import ResponsiveAppBar from "../components/reusable/appBar";
 import Authenticate from "../application/infra/api/authentication";
 import { SnackBarComponent, SnackInfo, ErrorSnack } from "../components/reusable/snackBar";
+import { useNavigate } from "react-router-dom";
 import '../assets/css/login.css'
 
 
 export default function LoginPage(){
     const auth = new Authenticate();
+    const navigate = useNavigate();
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [snackState, setSnackState] = React.useState(false);
@@ -28,7 +30,7 @@ export default function LoginPage(){
             const responseUser = await auth.get_user();
             if(responseUser.status != 200) throw new Error('Tente novamente.');
             setLocalStorageItem('user', responseUser.data);
-            window.location.href = "/"
+            navigate("/");
         }catch (error: any) {
             if (error instanceof ErrorSnack) {
                 snackInfo.message = error.message;
