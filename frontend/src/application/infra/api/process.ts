@@ -1,5 +1,5 @@
 import { ApiConfig, ResponseAPI } from "./apiconfig";
-import Process from "@/domain/entity/process";
+import Process from "../../../domain/process";
 
 class ProcessAPI extends ApiConfig{
 

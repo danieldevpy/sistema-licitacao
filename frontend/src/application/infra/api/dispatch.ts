@@ -1,4 +1,4 @@
-import Dispatch from "@/domain/entity/dispatch";
+import Dispatch from "../../../domain/dispatch";
 import { ApiConfig, ResponseAPI } from "./apiconfig";
 
 

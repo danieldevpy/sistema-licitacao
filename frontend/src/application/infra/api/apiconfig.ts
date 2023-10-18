@@ -47,7 +47,7 @@ export class ApiConfig{
         const formData = new FormData();
         formData.append('pdf', file);
         const response = await fetch(url,  {
-            method: 'POST',
+            method: method,
             body: formData
           })
         const data = await response.json();

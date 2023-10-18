@@ -5,12 +5,9 @@ import LoginPage from './pages/Login.tsx'
 import LogoutPage from './pages/Logout.tsx'
 import './assets/css/global.css'
 
-
-
 import {
   createBrowserRouter, RouterProvider
 } from "react-router-dom";
-
 
 const router = createBrowserRouter([
   {
