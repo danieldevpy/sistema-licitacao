@@ -9,7 +9,7 @@ export default function IndexPage(){
 
     const renderComponent =(_user: User|undefined)=>{
         if(!user){
-            return <label>loading</label>
+            return <></>
         }
         const cockie = getCookie('cisbafsession');
         if(!cockie) return to_logout();
@@ -18,6 +18,7 @@ export default function IndexPage(){
 
     const to_logout =()=>{
         window.location.href = '/login';
+        return <></>
     }
 
     React.useEffect(()=>{
