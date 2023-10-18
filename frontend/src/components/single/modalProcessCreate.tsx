@@ -27,7 +27,7 @@ export default function ModalProcessCreateComponent(props: ModalProps){
             if(!object || object == "") throw new ErrorSnack("Preencha o objeto do processo!", "warning");
             if(!selectedSector || selectedSector == "") throw new ErrorSnack("Selecione o setor", "warning");
             const response = await processAPI.create_process(numberProcess, object, Number(selectedSector));
-            if(response.status != 201) throw new Error("");
+            if(response.status != 201) throw new ErrorSnack(response.data.error, "warning");
             setNumberProcess("");
             setObject("");
             setSelectedSector("");

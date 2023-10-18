@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import React from 'react';
 import RestorePageIcon from '@mui/icons-material/RestorePage';
-
+import { SnackInfo } from './snackBar';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -19,16 +19,23 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 interface FileUploadProps {
+    snackState: any;
+    snackInfo: any;
     onFileSelect: (file: File|undefined) => void;
   }
-const InputFileUploadComponent: React.FC<FileUploadProps> = ({ onFileSelect }) => {
+const InputFileUploadComponent: React.FC<FileUploadProps> = (props: FileUploadProps) => {
     const [file, setFile] = React.useState<File>();
     
     const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0];
         if (file) {
+            if(file.size > 10 * 1024 * 1024){
+              const snack = new SnackInfo("O PDF não pode ser maior que 10MB", "error", "bottom", "center")
+              props.snackInfo(snack);
+              return props.snackState(true);
+            }
             setFile(file);
-            onFileSelect(file);
+            props.onFileSelect(file);
         }
       };
 
@@ -36,7 +43,7 @@ const InputFileUploadComponent: React.FC<FileUploadProps> = ({ onFileSelect }) =
         setTimeout(()=>{
             setFile(undefined);
         }, 200)
-        onFileSelect(undefined);
+        props.onFileSelect(undefined);
     }
 
   return (

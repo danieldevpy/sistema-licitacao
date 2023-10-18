@@ -11,7 +11,7 @@ import TableComponent from "../reusable/tableProcess";
 import ResponsiveAppBar from "../reusable/appBar";
 import { Box, Skeleton, Typography } from "@mui/material";
 import ColumnProcessSector from "../../application/infra/configs/columns";
-import ModalProcessComponent from "../reusable/modalProcess";
+import ModalProcessComponent from "./modalProcess";
 import InteractiveList from "../reusable/listProcess";
 import DispatchProcessComponent from "./dispatchProcess";
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
@@ -52,7 +52,7 @@ export default function SectorIndex(props: SectorIndexProps){
         try{
             const timer = setTimeout(() => {
                 setLoadingData(false);
-            }, 200); //
+            }, 200);
             apiSector.set_cookie(props.cockie);
             apiSector.get_sectores()
             .then(response=>{

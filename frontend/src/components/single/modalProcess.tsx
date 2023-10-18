@@ -1,5 +1,5 @@
 import {Modal, Typography, Box, Divider, Skeleton} from '@mui/material';
-import DispatchComponent from './dispatch';
+import DispatchComponent from '../reusable/dispatch';
 import Process from '../../domain/process';
 import Dispatch from '../../domain/dispatch';
 

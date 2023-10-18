@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, CircularProgress } from "@mui/material";
 import { Sector } from "../../domain/sector";
 import Process from "../../domain/process";
 import ProcessAPI from "../../application/infra/api/process";
@@ -25,9 +25,12 @@ export default function DispatchProcessComponent(props: DispatchProps){
     const [textOBS, setTextOBS] = React.useState<string>();
     const [sectorSelected, setSectorSelected] = React.useState<string>("");
     const [file, setFile] = React.useState<File>();
-
+    const [loading, setLoading] = React.useState(false);
 
     const confirm_dispatch = async() =>{
+        const timer = setTimeout(() => {
+            setLoading(true);
+        }, 200);
         try{
             if(!sectorSelected || sectorSelected == "") throw new ErrorSnack("Selecione um setor", "warning");
             if(!textOBS || textOBS == "") throw new ErrorSnack("Envie alguma observação", "warning");
@@ -58,11 +61,18 @@ export default function DispatchProcessComponent(props: DispatchProps){
             }
             props.snackInfo(snack);
             return props.snackState(true);
+        }finally{
+            clearTimeout(timer);
+            setLoading(false);
         }
     }
 
     return(
-        <Box sx={{display: "flex", flexDirection: "column", gap: 1}}>
+        <>
+         {loading?(
+            <CircularProgress color="success" sx={{alignSelf: "center"}} />
+        ):(
+            <Box sx={{display: "flex", flexDirection: "column", gap: 1}}>
             <FormControl fullWidth>
                 <InputLabel>Setor</InputLabel>
                 <Select
@@ -83,11 +93,16 @@ export default function DispatchProcessComponent(props: DispatchProps){
                 value={textOBS}
                 onChange={(e)=>{setTextOBS(e.target.value)}}
                 />
-            <InputFileUploadComponent onFileSelect={setFile}/>
+            <InputFileUploadComponent
+                snackInfo={props.snackInfo}
+                snackState={props.snackState}
+                onFileSelect={setFile}/>
             <Button
                 variant="contained"
                 color="success"
                 onClick={confirm_dispatch}>DESPACHAR PROCESSO</Button> 
         </Box>
+        )}
+        </>
     );
 }
