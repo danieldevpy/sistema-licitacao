@@ -1,0 +1,41 @@
+
+.mainlogin{
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.containerlogin{
+    margin-top: 50px;
+    width: 40%;
+    background-color: rgb(243, 243, 243);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.boxlogologin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #11558d;
+    border-radius: 8px;
+}
+.logologin{
+    width: 200px;
+}
+.formlogin{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+@media (max-width: 800px){
+    
+    .mainlogin{
+        justify-content: left;
+    }
+    .containerlogin{
+        width: 100%;
+    }
+}

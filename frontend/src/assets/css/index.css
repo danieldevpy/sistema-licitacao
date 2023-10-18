@@ -1,0 +1,29 @@
+
+
+.mainindex{
+    margin-top: 100px;
+    width: 100%;
+
+}
+.modalindex{
+    min-width: 40%;
+    max-width: 60%;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border: "2px solid #000";
+    box-shadow: 24px;
+    padding: 25px;
+    display: flex;
+    border-radius: 8px;
+    flex-direction: column;
+    gap: 8px;
+    background-color: snow;
+  }
+
+@media (max-width: 800px){
+    .modalindex{
+        max-width: 90%;
+    }
+}

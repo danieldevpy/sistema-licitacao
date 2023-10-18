@@ -14,7 +14,7 @@ class SqliteProcess implements ProcessRepository{
         const db = this.sqlite.get_db();
         var query_string = "";
         var params: any = [];
-        if(user.is_adm || user.is_staff){
+        if(user.is_staff){
             query_string = `
             SELECT process.id, process_number, object, sector_id, sector.name AS sector, status, active, last_update
             FROM process

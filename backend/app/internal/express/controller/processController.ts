@@ -14,6 +14,14 @@ import {
 const processRepository = new SqliteProcess();
 const dispatchRepository = new SqliteDispatch();
 
+const timeout =(): Promise<string>=>{
+    return new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+            resolve("ola");
+        }, 2000 + Math.floor(Math.random() * 200))
+    })
+}
+
 async function GetAllProcessController(req: Request, res: Response){
     try{
         const processes = await GetAllProcess(processRepository, req.user);
