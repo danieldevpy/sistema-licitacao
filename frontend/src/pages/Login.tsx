@@ -1,11 +1,8 @@
 import React from "react";
 import { setLocalStorageItem } from "../application/infra/armazenamento/localStorage";
 import { setCookie, getCookie } from "../application/infra/armazenamento/coockie";
-import TextField from '@mui/material/TextField';
-import Box from "@mui/material/Box";
+import {Box, Button, TextField, Typography} from "@mui/material";
 import imgLic from '../assets/img/licitacao.png'
-import { CircularProgress, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
 import ResponsiveAppBar from "../components/reusable/appBar";
 import Authenticate from "../application/infra/api/authentication";
 import { SnackBarComponent, SnackInfo, ErrorSnack } from "../components/reusable/snackBar";
@@ -14,7 +11,6 @@ import '../assets/css/login.css'
 
 export default function LoginPage(){
     const auth = new Authenticate();
-    const [loading, setLoading] = React.useState(false);
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [snackState, setSnackState] = React.useState(false);
@@ -68,8 +64,8 @@ export default function LoginPage(){
                                     
                     <TextField className="txtf" label="Usuario" variant="outlined"  value={username} onChange={(e)=>{setUsername(e.target.value)}}/>
                     <TextField label="Senha" type='password' variant="outlined"  value={password} onChange={(e)=>{setPassword(e.target.value)}} />
-                    <Button variant="contained" color="success" className='bg-slate-500' onClick={login}  disabled={loading}>
-                        {loading? (<CircularProgress />):("ACESSAR")}
+                    <Button variant="contained" color="success" className='bg-slate-500' onClick={login}>
+                        ACESSAR
                     </Button>
                 </Box>
             </Box>
