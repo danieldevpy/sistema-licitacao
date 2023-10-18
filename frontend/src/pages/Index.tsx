@@ -21,6 +21,7 @@ export default function IndexPage(){
     }
 
     React.useEffect(()=>{
+        document.title = 'Controle de Processos CISBAF';
         try{
             const _user = getLocalStorageItem('user');
             if(!_user) throw new Error("not user");
@@ -29,6 +30,7 @@ export default function IndexPage(){
         }catch{
             to_logout();
         }
+        
     }, [])
 
     return (

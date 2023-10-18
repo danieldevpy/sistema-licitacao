@@ -43,6 +43,10 @@ export default function LoginPage(){
             console.error('Error desconhecido:', error.message);
         }
     }
+    
+    React.useEffect(()=>{
+        document.title = 'LOGIN - Controle de Processos';
+    },[])
 
     return(
         <Box className="mainlogin">
