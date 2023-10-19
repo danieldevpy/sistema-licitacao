@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import {SqliteDispatch, SqliteFile} from '../../sqlite/export';
-import { GetAllDisaptchByIdProcess } from '../../../src/application/usecase/export';
+import { GetAllDisaptchByIdProcess, UpdateObservation } from '../../../src/application/usecase/export';
 
 
 const dispatchRepository = new SqliteDispatch();
@@ -31,16 +31,35 @@ async function DispatchUploadController(req: Request, res: Response){
 
 async function DispatchViewPdfController(req: Request, res: Response){
     const id_dispatch = req.params.id_dispatch;
-
     const buffer = await fileRepository.get_buffer(Number(id_dispatch));
     if(!buffer){
         res.status(400);
         return res.json({"error": "Não foi possível visualizar o arquivo."});
     }
-    const fileBuffer = Buffer.from(buffer, 'binary');
+    const fileBuffer = Buffer.from(buffer.fileData, 'binary');
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `inline; filename=arquivo.pdf`);
+    res.setHeader('Content-Disposition', `inline; filename=${buffer.fileName}`);
     return res.send(fileBuffer);
 }
 
-export {GetAllDisaptchByIdProcessController, DispatchUploadController, DispatchViewPdfController};
+async function DispatchUpdateObsController(req: Request, res: Response){
+    const id_dispatch = req.params.id_dispatch;
+    const { observation } = req.body;
+    if(!observation){
+        res.status(400);
+        return res.json({"error": "Não localizar a observação"});
+    }
+    const response = await UpdateObservation(dispatchRepository, Number(id_dispatch), observation);
+    if(!response){
+        res.status(400);
+        return res.json({"error": "Não localizar a observação"});
+    }
+    return res.json(response);
+}
+
+export {
+    GetAllDisaptchByIdProcessController,
+    DispatchUploadController,
+    DispatchViewPdfController,
+    DispatchUpdateObsController
+};

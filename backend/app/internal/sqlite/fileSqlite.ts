@@ -24,10 +24,10 @@ class SqliteFile {
         });
     }
 
-    get_buffer(dispatch_id: number): Promise<string|null>{
+    get_buffer(dispatch_id: number): Promise<{[key: string]: string}|null>{
         return new Promise((resolve, reject)=>{
             const db = this.sqlite.get_db();
-            const query = "SELECT filedata FROM file WHERE id = ?1";
+            const query = "SELECT filename, filedata FROM file WHERE id = ?1";
             db.get(query, [dispatch_id], (err, row: any)=>{
                 if(err){
                     return reject(err);
@@ -35,7 +35,7 @@ class SqliteFile {
                 if(!row){
                     return resolve(null);
                 }
-                return resolve(row.filedata);
+                return resolve({fileName: row.filename, fileData: row.filedata});
             });
         });
     }

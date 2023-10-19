@@ -7,7 +7,7 @@ import {
     DispatchProcess } from "./processCase";
 import GetAllSector from "./sectorCase";
 import { CheckAuth, CreateUser} from "./userCase";
-import { GetAllDisaptchByIdProcess } from "./dispatchCase";
+import { GetAllDisaptchByIdProcess, UpdateObservation } from "./dispatchCase";
 
 export {
     CreateUser,
@@ -19,5 +19,6 @@ export {
     UpdateStatusProcess,
     AcceptProcess,
     DispatchProcess,
-    GetAllDisaptchByIdProcess
+    GetAllDisaptchByIdProcess,
+    UpdateObservation
     }

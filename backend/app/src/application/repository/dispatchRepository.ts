@@ -7,4 +7,5 @@ export default interface DispatchRepository{
     GetAllDisaptchByIdProcess(id_process: number): Promise<Dispatch[]>;
     GetLastDispatch(id_process: number): Promise<Dispatch> ;
     UpdateSectores(id: number, from_sector_id: number, to_sector_id: number, observation: string): Promise<boolean>;
+    UpdateObservation(id_dispatch: number, observation: string): Promise<boolean|null>;
 }

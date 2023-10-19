@@ -144,6 +144,19 @@ class SqliteDispatch implements DispatchRepository{
             });
         });
     }
+
+    UpdateObservation(id_dispatch: number, observation: string): Promise<boolean|null>{
+        return new Promise((resolve, reject)=>{
+            const db = this.sqlite.get_db();
+            const query = "UPDATE dispatch SET observation = ?1 WHERE id = ?2;";
+            db.run(query, [observation, id_dispatch], (err)=>{
+                if(err){
+                    return reject(err);
+                }
+                return resolve(true);
+            })
+        });
+    }
 }
 
 export default SqliteDispatch;

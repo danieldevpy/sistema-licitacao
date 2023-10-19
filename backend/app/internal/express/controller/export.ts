@@ -1,6 +1,13 @@
 import { GetAllSectorController } from "./sectorController";
-import { LoginController, GetUserController, CreateUserController} from "./userController";
-import { GetAllDisaptchByIdProcessController, DispatchUploadController, DispatchViewPdfController } from "./dispatchController";
+import {
+    LoginController,
+    GetUserController,
+    CreateUserController} from "./userController";
+import {
+    GetAllDisaptchByIdProcessController,
+    DispatchUploadController,
+    DispatchViewPdfController,
+    DispatchUpdateObsController} from "./dispatchController";
 import {
     GetAllProcessController,
     GetProcessByIdController,
@@ -8,8 +15,7 @@ import {
     CreateProcessAndDispatchController,
     UpdateStatusProcessController,
     DispatchProcessController,
-    AcceptProcessController
-} from "../controller/processController";
+    AcceptProcessController} from "../controller/processController";
 
 export {
     CreateUserController,
@@ -25,5 +31,6 @@ export {
     GetAllSectorController,
     GetAllDisaptchByIdProcessController,
     DispatchUploadController,
-    DispatchViewPdfController
+    DispatchViewPdfController,
+    DispatchUpdateObsController
 }

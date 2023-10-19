@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, CircularProgress } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Tooltip, CircularProgress, InputBase, IconButton, Paper } from "@mui/material";
 import { Sector } from "../../domain/sector";
 import Process from "../../domain/process";
 import ProcessAPI from "../../application/infra/api/process";
@@ -7,6 +7,7 @@ import InputFileUploadComponent from "../reusable/uploadFile";
 import Dispatch from "../../domain/dispatch";
 import DispatchAPI from "../../application/infra/api/dispatch";
 import { SnackInfo, ErrorSnack } from "../reusable/snackBar";
+import SaveIcon from '@mui/icons-material/Save';
 
 interface DispatchProps{
     process?: Process;
@@ -26,8 +27,36 @@ export default function DispatchProcessComponent(props: DispatchProps){
     const [sectorSelected, setSectorSelected] = React.useState<string>("");
     const [file, setFile] = React.useState<File>();
     const [loading, setLoading] = React.useState(false);
+    const [colorIcon, setColorIcon] = React.useState<"inherit"|"error">("inherit");
 
-    const confirm_dispatch = async() =>{
+    const preSaveObs = async()=>{
+        try{
+            if(!textOBS || !textOBS) throw new ErrorSnack("A observação não pode ser vazia", "warning");
+            if(colorIcon != "error") throw new ErrorSnack("Não tem alteração para ser salva", "warning");
+            const dispatchs = props.dispatchs;
+            if(!dispatchs) throw new ErrorSnack("Error COD: DPOBS1", "warning");
+            const lastDispatch = dispatchs[dispatchs.length-1];
+            lastDispatch.observation = textOBS;
+            const response = await api_dispatch.update_observation(lastDispatch);
+            if(response.status != 200) throw new ErrorSnack("Não foi possivel realizar a alteração", "error");
+            const snack = new SnackInfo(`A observação foi atualizada.`, "success", "bottom", "left");
+            props.snackInfo(snack);
+            return props.snackState(true);
+        }catch (error: any){
+            var snack;
+            if (error instanceof ErrorSnack) {
+                snack = new SnackInfo(error.message, error.type, "bottom", "center");             
+            }else{
+                snack = new SnackInfo(error.message, "error", "bottom", "center");
+            }
+            props.snackInfo(snack);
+            return props.snackState(true);
+        }finally{
+            setColorIcon("inherit");
+        }
+    }
+
+    const confirmDispatch = async() =>{
         const timer = setTimeout(() => {
             setLoading(true);
         }, 200);
@@ -67,6 +96,13 @@ export default function DispatchProcessComponent(props: DispatchProps){
         }
     }
 
+    React.useEffect(()=>{
+        const dispatchs = props.dispatchs;
+        if(!dispatchs) return;
+        const lastDispatch = dispatchs[dispatchs.length-1];
+        setTextOBS(lastDispatch.observation);
+    }, [props.dispatchs])
+
     return(
         <>
          {loading?(
@@ -84,15 +120,27 @@ export default function DispatchProcessComponent(props: DispatchProps){
                     ))}
                 </Select>
             </FormControl>
-            <TextField
-                label="Observação"
-                multiline
-                rows={4}
-                placeholder='Envie uma observação para o proximo setor!'
-                variant="filled"
-                value={textOBS}
-                onChange={(e)=>{setTextOBS(e.target.value)}}
+            <Paper
+                component="form"
+                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center'}}>
+                <InputBase
+                    sx={{ ml: 1, flex: 1 }}
+                    multiline
+                    rows={4}
+                    value={textOBS}
+                    onChange={(e)=>{setTextOBS(e.target.value); setColorIcon("error")}}
+                    placeholder="Envie uma observação para o proximo setor!"
                 />
+                <Tooltip title="Pré salvar a observação">
+                <IconButton
+                    type="button"
+                    sx={{ p: '10px' }}
+                    onClick={preSaveObs}
+                    >
+                    <SaveIcon color={colorIcon} />
+                </IconButton>
+                </Tooltip>
+            </Paper>
             <InputFileUploadComponent
                 snackInfo={props.snackInfo}
                 snackState={props.snackState}
@@ -100,7 +148,7 @@ export default function DispatchProcessComponent(props: DispatchProps){
             <Button
                 variant="contained"
                 color="success"
-                onClick={confirm_dispatch}>DESPACHAR PROCESSO</Button> 
+                onClick={confirmDispatch}>DESPACHAR PROCESSO</Button> 
         </Box>
         )}
         </>

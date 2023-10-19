@@ -36,4 +36,5 @@ async function LoginController(req: Request, res: Response){
     res.json({"error": "falha na authenticação"});
 }
 
+
 export {CreateUserController, GetUserController, LoginController};

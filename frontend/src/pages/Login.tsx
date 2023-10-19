@@ -46,7 +46,7 @@ export default function LoginPage(){
             setLoadingButton(false);
         }
     }
-    
+
     React.useEffect(()=>{
         document.title = 'LOGIN - Controle de Processos';
     },[])
@@ -68,9 +68,8 @@ export default function LoginPage(){
                         textDecoration: 'none',
                         color: "black"
                         }}>CONTROLE DE PROCESSOS</Typography>
-                                    
-                    <TextField className="txtf" label="Usuario" variant="outlined"  value={username} onChange={(e)=>{setUsername(e.target.value)}}/>
-                    <TextField label="Senha" type='password' variant="outlined"  value={password} onChange={(e)=>{setPassword(e.target.value)}} />
+                    <TextField label="Usuario" variant="outlined"  value={username} onChange={(e)=>{setUsername(e.target.value)}}/>
+                    <TextField label="Senha" type='password' variant="outlined"  value={password} onKeyDown={(e)=>{if(e.key === 'Enter')login()}} onChange={(e)=>{setPassword(e.target.value)}} />
                     <Button variant="contained" sx={{height: 50}} color="success" className='bg-slate-500' onClick={login} disabled={loadingButton}>
                     {loadingButton? (<CircularProgress size={30} />):("ACESSAR")}
                     </Button>

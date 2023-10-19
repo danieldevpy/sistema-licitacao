@@ -6,4 +6,8 @@ function GetAllDisaptchByIdProcess(repository: DispatchRepository, id: number): 
     return repository.GetAllDisaptchByIdProcess(id);
 }
 
-export {GetAllDisaptchByIdProcess};
+function UpdateObservation(repository: DispatchRepository, id_dispatch: number, observation: string): Promise<boolean|null>{
+    return repository.UpdateObservation(id_dispatch, observation);
+}
+
+export {GetAllDisaptchByIdProcess, UpdateObservation};

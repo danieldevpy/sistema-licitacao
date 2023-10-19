@@ -16,7 +16,8 @@ import {
   GetAllSectorController,
   GetAllDisaptchByIdProcessController,
   DispatchUploadController,
-  DispatchViewPdfController
+  DispatchViewPdfController,
+  DispatchUpdateObsController
 } from './controller/export';
 
 
@@ -38,9 +39,11 @@ app.post('/process', MiddlewareAuth.PermissionUser, CreateProcessController); //
 app.post('/process/dispatch', MiddlewareAuth.PermissionUser, CreateProcessAndDispatchController); // criação de processo e despacho
 app.put('/process/dispatch/:id', MiddlewareAuth.PermissionUser, DispatchProcessController); // dispacho de um processo para o outro  
 // rotas dos dispachos
-app.get('/dispatch/process/:id', GetAllDisaptchByIdProcessController); //pegar todos dispachos através do id do processo
-app.get('/dispatch/pdf/:id_dispatch', DispatchViewPdfController);
+app.get('/dispatch/process/:id', MiddlewareAuth.PermissionUser, GetAllDisaptchByIdProcessController); //pegar todos dispachos através do id do processo
+app.get('/dispatch/pdf/:id_dispatch', MiddlewareAuth.PermissionUser, DispatchViewPdfController);
 app.post('/dispatch/upload/:id_dispatch', UploadMiddleware.PDF, DispatchUploadController);
+app.put('/dispatch/obs/:id_dispatch', MiddlewareAuth.PermissionUser, DispatchUpdateObsController); //pegar todos dispachos através do id do processo
+
 // rotas dos setores
 app.get('/sector', MiddlewareAuth.PermissionUser, GetAllSectorController); // pegar todos os setores registrados no banco
 

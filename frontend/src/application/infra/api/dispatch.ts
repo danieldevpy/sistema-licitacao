@@ -15,13 +15,13 @@ class DispatchAPI extends ApiConfig{
         });
     }
 
-    put_dispatch(dispatch: Dispatch): Promise<ResponseAPI>{
+    update_observation(dispatch: Dispatch): Promise<ResponseAPI>{
         return new Promise(async(resolve, reject)=>{
             try{
              const result = await this.api_fetch(
-                `${this.url}/dispatch/process/${dispatch.id}`,
+                `${this.url}/dispatch/obs/${dispatch.id}`,
                 "PUT",
-                JSON.stringify(dispatch));
+                JSON.stringify({observation: dispatch.observation}));
              resolve(result);
             }catch (error){
              reject(error);
