@@ -20,8 +20,33 @@
     flex-direction: column;
     gap: 8px;
     background-color: snow;
-  }
+}
 
+.boxdispatchindex{
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    gap: 5px;
+    padding-bottom: 15px;
+    padding-left: 5px;
+}
+.boxdispatchindex::-webkit-scrollbar {
+    height: 24px;
+    
+  }
+.boxdispatchindex::-webkit-scrollbar-thumb {
+    background-color: #bbd9ff; /* Cor da barra de rolagem */
+    border-radius: 3px;
+}
+.boxdispatchindex::-webkit-scrollbar-thumb:hover{
+    background-color: #a1c5f3;
+}
+  
+.boxdispatchindex::-webkit-scrollbar-track {
+    
+    background-color: #f0f0f0; /* Cor de fundo da barra de rolagem */
+}
+  
 @media (max-width: 800px){
     .modalindex{
         max-width: 90%;

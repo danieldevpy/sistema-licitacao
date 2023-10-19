@@ -1,3 +1,4 @@
+import React from 'react';
 import {Modal, Typography, Box, Divider, Skeleton} from '@mui/material';
 import DispatchComponent from '../reusable/dispatch';
 import Process from '../../domain/process';
@@ -14,6 +15,19 @@ interface ModalProps{
 }
 
 export default function ModalProcessComponent(props: ModalProps){
+    const scrollableElementRef = React.useRef<HTMLDivElement | null>(null);
+
+    function scrollToFinal() {
+        if (scrollableElementRef.current) {
+          const scrollableElement = scrollableElementRef.current;
+          const scrollWidth = scrollableElement.scrollWidth;
+          scrollableElement.scrollLeft = scrollWidth;
+        }
+    }
+
+    React.useEffect(()=>{
+        scrollToFinal();
+    })
 
     return(
         <Modal
@@ -39,7 +53,7 @@ export default function ModalProcessComponent(props: ModalProps){
                 <Typography color="black"sx={{fontSize: 18}}>Objeto:</Typography>
                 <Typography color="#4d4d4d">{props.process?.object}</Typography>
             </Box>
-            <Box sx={{display: "flex", gap: 1, alignItems: "center", justifyContent: "c"}}>
+            <Box sx={{display: "flex", gap: 1, alignItems: "center"}}>
                 <Typography
                     color="black"
                     sx={{fontSize: 18}} >Status:</Typography>
@@ -50,7 +64,7 @@ export default function ModalProcessComponent(props: ModalProps){
 
             <Divider/>
             {props.dispatchs?(
-                <Box style={{width: "100%", display: "flex", overflowX: "auto", gap: 5, paddingBottom: 15}}>
+                <Box ref={scrollableElementRef} className="boxdispatchindex">
                 {props.dispatchs?.map((dispatch, index)=>(
                     <DispatchComponent key={index} item={dispatch}/>
                 ))}
