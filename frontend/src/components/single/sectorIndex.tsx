@@ -171,7 +171,7 @@ export default function SectorIndex(props: SectorIndexProps){
             <ModalProcessComponent
                 process={selectedProcess?.process}
                 dispatchs={dispatchs}
-                open={visibleModalProcess} title="Process"
+                open={visibleModalProcess} title="Visualização do Processo"
                 fclose={()=>{setVisibleModalProcess(false)}}>
                 {selectedProcess?.editable?(
                     <DispatchProcessComponent 
