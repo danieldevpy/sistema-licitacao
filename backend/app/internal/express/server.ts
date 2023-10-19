@@ -40,7 +40,7 @@ app.post('/process/dispatch', MiddlewareAuth.PermissionUser, CreateProcessAndDis
 app.put('/process/dispatch/:id', MiddlewareAuth.PermissionUser, DispatchProcessController); // dispacho de um processo para o outro  
 // rotas dos dispachos
 app.get('/dispatch/process/:id', MiddlewareAuth.PermissionUser, GetAllDisaptchByIdProcessController); //pegar todos dispachos através do id do processo
-app.get('/dispatch/pdf/:id_dispatch', MiddlewareAuth.PermissionUser, DispatchViewPdfController);
+app.get('/dispatch/pdf/:id_dispatch', DispatchViewPdfController);
 app.post('/dispatch/upload/:id_dispatch', UploadMiddleware.PDF, DispatchUploadController);
 app.put('/dispatch/obs/:id_dispatch', MiddlewareAuth.PermissionUser, DispatchUpdateObsController); //pegar todos dispachos através do id do processo
 
