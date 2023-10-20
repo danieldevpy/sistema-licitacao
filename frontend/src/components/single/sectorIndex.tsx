@@ -35,7 +35,7 @@ export default function SectorIndex(props: SectorIndexProps){
     const apiSector = new SectorAPI();
     const apiProcess = new ProcessAPI();
     const windowWidth = window.innerWidth;
-    const isMobile = useMediaQuery({ maxWidth: 991});
+    const isMobile = useMediaQuery({ maxWidth: 900});
     const [sectores, setSectores] = React.useState<Sector[]>();
     const [processes, setProcesses] = React.useState<Process[]>();
     const [tableProcess, setTableProcess] = React.useState<Process[]>();
@@ -172,7 +172,8 @@ export default function SectorIndex(props: SectorIndexProps){
                 process={selectedProcess?.process}
                 dispatchs={dispatchs}
                 open={visibleModalProcess} title="Visualização do Processo"
-                fclose={()=>{setVisibleModalProcess(false)}}>
+                fclose={()=>{setVisibleModalProcess(false)}}
+                isMobile={isMobile}>
                 {selectedProcess?.editable?(
                     <DispatchProcessComponent 
                         process={selectedProcess.process}

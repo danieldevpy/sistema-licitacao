@@ -3,6 +3,7 @@ import {Modal, Typography, Box, Divider, Skeleton} from '@mui/material';
 import DispatchComponent from '../reusable/dispatch';
 import Process from '../../domain/process';
 import Dispatch from '../../domain/dispatch';
+import DispatchAccordion from '../reusable/dispatchAccordion';
 
 interface ModalProps{
     title: string;
@@ -12,6 +13,7 @@ interface ModalProps{
     dispatchs?: Dispatch[];
     children?: any;
     lastDispatch?: any;
+    isMobile: boolean;
 }
 
 export default function ModalProcessComponent(props: ModalProps){
@@ -64,11 +66,18 @@ export default function ModalProcessComponent(props: ModalProps){
 
             <Divider/>
             {props.dispatchs?(
-                <Box ref={scrollableElementRef} className="boxdispatchindex">
-                {props.dispatchs?.map((dispatch, index)=>(
-                    <DispatchComponent key={index} item={dispatch}/>
-                ))}
-                </Box>
+               <>
+               {props.isMobile?(
+
+                <DispatchAccordion dispatchs={props.dispatchs}/>
+               ):(
+                 <Box ref={scrollableElementRef} className="boxdispatchindex">
+                 {props.dispatchs?.map((dispatch, index)=>(
+                     <DispatchComponent key={index} item={dispatch}/>
+                 ))}
+                 </Box>
+               )}
+               </>
             ):(
                 <Box className='flex flex-col gap-1'>
                     <Skeleton variant="rectangular" width={"100%"} height={20} />

@@ -8,8 +8,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import Process from '../../domain/process';
-
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Button } from '@mui/material';
 
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -27,16 +27,16 @@ export default function InteractiveList(props: ListProps) {
     }
 
   return (
-    <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
+    <Box sx={{ flexGrow: 1, width: "100%" }}>
    
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-     
           <Demo>
             {props.processes?.length?(
             <List>
             {props.processes.map(process=>(
-                <ListItem onDoubleClick={()=>{selected(process)}} key={process.id}>
+                <Button onDoubleClick={()=>{selected(process)}} key={process.id+"btn"} style={{width: "100%"}}>
+                  <ListItem  key={process.id+"lst"}>
                     <ListItemAvatar key={process.id+5}>
                     <Avatar key={process.id+7}>
                         <AssignmentIcon key={process.id+8}/>
@@ -49,6 +49,7 @@ export default function InteractiveList(props: ListProps) {
                     key={process.id+66}
                     />
                 </ListItem>
+                </Button>
             ))}
                </List>
             ):(

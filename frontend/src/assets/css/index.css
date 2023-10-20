@@ -46,9 +46,16 @@
     
     background-color: #f0f0f0; /* Cor de fundo da barra de rolagem */
 }
-  
-@media (max-width: 800px){
+.accordionindex{
+    overflow-y: auto;
+    max-height: 500px;
+}
+@media (max-width: 900px){
     .modalindex{
+        width: 100%;
         max-width: 90%;
+    }
+    .accordionindex{
+        max-height: 200PX;
     }
 }
