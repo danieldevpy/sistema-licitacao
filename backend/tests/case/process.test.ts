@@ -20,7 +20,7 @@ async function time(){
     return new Promise((resolve, reject)=>{
         setTimeout(()=>{
             resolve('');
-        }, 1000)
+        }, 300)
     })
 }
 
@@ -36,9 +36,6 @@ beforeAll(async() => {
     sector_compras = await sectorRepository.CreateSector("Compras");
     user = new User("Test", "Full name", sector_recepcao.id, "undefined", true, undefined, 1);
   });
-
-
-
 
 test("Criar Processo", async()=>{
     const process = await CreateProcess(processRepository, "5548778332", "Teste", sector_ti.id);
