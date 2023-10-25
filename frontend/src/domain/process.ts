@@ -48,3 +48,32 @@ class Process{
 }
 
 export default Process;
+
+type _Process = {
+  id: number;
+  number: string;
+  object: string;
+  sector: string;
+  sector_id: number;
+  status: boolean;
+  active: boolean;
+  status_name: string;
+  last_update: string;
+}
+
+
+export function CreateEntity(process: _Process): _Process {
+  if(process.status_name == "" && process.last_update){
+    const data1 = moment(process.last_update, 'DD-MM-YYYY HH:mm:ss');  // Certifique-se de que this.last_update está no formato 'DD-MM-YYYY HH:mm:ss'
+    const data2 = moment(moment().format('DD-MM-YYYY HH:mm:ss'), 'DD-MM-YYYY HH:mm:ss');
+    const diferencaFormatada = moment.duration(data2.diff(data1)).humanize();
+    process.last_update = diferencaFormatada;
+  }
+  if(process.status){
+      process.status_name = `O processo está no setor ${process.sector} há (${process.last_update}) `;
+  }else{
+      process.status_name = `Aguardando recebimento pelo setor ${process.sector} há (${process.last_update})`
+  }
+  return process
+}
+
